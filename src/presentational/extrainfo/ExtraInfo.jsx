@@ -33,7 +33,7 @@ class ExtraInfo extends Component{
         years: [],
         customInputs:[],
         selectedCheckboxes:[],
-        radioActiveState: ''
+        radioActiveState: null
     }
 
     static propTypes = {
@@ -181,38 +181,41 @@ class ExtraInfo extends Component{
 
     handleCheckboxClick = (boxvalue) => {
         //let rgxlike = like.replace('brand-', '');
-       // console.log(rgxlike);
+       console.log('checkbox clicked extrainfo');
        this.addCheckboxToSelectedArray(boxvalue)
       .then(()=>this.props.handleAddCheckbox(boxvalue));
     }
-    handleRadioClick = (value) => {
-        
-        const radioActiveToggle = () => {
-            return new Promise((res, rej) => {
-                try{
-                    this.setState({
-                        radioActiveState: value
-                    })
-                }
-                catch(e){
-                    rej(e)
-                }
-                });
+    radioActiveToggle = (value) => {
+        return new Promise((res, rej) => {
+            try{
+                this.setState({
+                    radioActiveState: value
+                })
             }
-        radioActiveToggle()
+            catch(e){
+                rej(e)
+            }
+            });
+        }
+
+    handleRadioClick = (value, i) => {     
+        this.radioActiveToggle(i)
             .then(() => this.props.handleFormAnswersUpdate(value, 'radio'))
         
     }
 
     renderCustomFormField = (type, fieldoptions) => {
+    
         switch(type){
             case 'radio':
+            //console.log('fieldoption radio: ', fieldoptions + ' ' + type);
             return  <RadioCustomInput 
                         radioActiveState={this.state.radioActiveState} 
                         handleRadioClick={this.handleRadioClick} 
                         options={fieldoptions} />
             break;
             case 'checkbox':
+            //console.log('fieldoptions checkbox: ', fieldoptions + ' ' + type);
             return <CheckboxCustomInput 
                         selectedBoxes={this.state.selectedCheckboxes} 
                         handleOnClick={this.handleCheckboxClick} 
@@ -232,6 +235,7 @@ class ExtraInfo extends Component{
                     <p>I could Text you info on deals you may be interested in.</p>
                 </div>
                 {this.state.customInputs.map((input, i) => {
+                    //console.log('options: ', input.options);
                     return(
                         <div className="preference-section" key={i}>
                             <h2>{input.name}</h2>
