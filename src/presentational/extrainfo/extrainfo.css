@@ -1,0 +1,69 @@
+input[type=checkbox], input[type=radio]{
+    visibility: hidden;
+}
+
+label{
+    background-color: #FFF;
+    color: #034694;
+    border: 1px solid #034694;
+    padding: 5px 0;
+    text-align: center;
+    width: 95%;
+    border-radius: 30px;
+    margin: 3px auto;
+    transition: .3s;
+}
+label.active-box{
+    background-color: #034694;
+    color: #FFF;
+}
+.checkbox-group, .radio-group label{
+    width: 48%;
+    float: left;
+    margin: 4px 0;
+}
+
+/* .checkbox-group{
+    width: 50%;
+    float: none;
+    margin: 8px auto;
+} */
+
+.checkbox-group input{
+    font-size: 1em;
+}
+
+.preference-section{
+    margin: 10px auto 8px;
+    clear: both;
+    height: auto;
+    display: inline-block;
+}
+.preference-section h2{
+    font-size: 1.25em;
+    text-transform:capitalize;
+}
+
+.select-group{
+    float: left;
+}
+
+.select-group select{
+    border-radius: 4px;
+    padding: 10px 6px;
+    top: auto;
+    bottom: 100%;
+    width: 80px;
+    margin-right: 10px;
+    border: 1px solid #034694;
+}
+
+.select-group option, .select-group select{
+    text-transform: capitalize;
+    
+}
+
+.bday-selectgroup-wrap{
+    width: 271px;
+    margin:20px auto;
+}

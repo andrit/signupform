@@ -1,0 +1,37 @@
+.img-container{
+    margin-top: 80px
+}
+.profile-image{
+    vertical-align: middle;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid #333;
+} 
+
+.intro-salesperson h1{
+    font-size: 2.05em;
+    font-weight: lighter;
+}
+
+.agreement-explanation{
+    margin-bottom: 20px;
+}
+.agreement-explanation p{
+    font-size: 11px;
+    margin: 0;
+}
+
+#introsection .pcrbtn{
+    padding: 10px 80px;
+}
+.text-accept-success{
+    font-size: 24px;
+}
+.text-accept-success i{
+    color: white;
+    font-size: 18px;
+    background-color: green;
+    border-radius: 50%;
+    padding:10px;
+}

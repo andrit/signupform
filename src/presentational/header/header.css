@@ -1,0 +1,12 @@
+header{
+    border-bottom: 3px solid #034694;
+    height:40px;
+    padding: 10px;
+    margin-bottom:1em;
+    display: flex;
+}
+
+.brand-logo{
+    width: 100%;
+    align-items: center;
+}

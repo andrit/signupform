@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  
+}
+.pcrbtn{
+  text-align: center;
+  padding: 10px 30px;
+  font-weight: bold;
+  border: none !important;
+  border-radius: 30px;
+  clear: both;
+  
+}
+
+.btn-red{
+  background-color: #D71920;
+  color: #FFF;
+}
+
+.form-section{
+  margin: 10% 5%;
+}
+
+.notactive{
+  opacity: .5;
+}
+
+.purpose-statement p{
+  font-size: 16px;
+}
+
+.error{
+  color: red;
+  font-style: italic;
+}
