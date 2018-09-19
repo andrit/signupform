@@ -69,35 +69,6 @@ class App extends Component {
     // return switchSectionState();   
   }
 
-  //Removale Not Working Yet!  TODO
-//   handleAddLike = (item) => {
-//     let likes = this.state.selectedLikes;
-//     if(likes.includes(item)){
-//      let indexof = likes.indexOf(item);
-//       let removedLikes = likes.splice(indexof, 1);
-//       this.setState({
-//         selectedLikes: likes
-//       })
-//     } else {
-//     this.setState({
-//       selectedLikes: likes.concat(item)
-//     })
-//  }
-//   }
-//   handleAddCategory = (item) => {
-//     let categories = this.state.selectedCategories;
-//     if(categories.includes(item)){
-//       let indexof = categories.indexOf(item);
-//        let removedcategories = categories.splice(indexof, 1);
-//        this.setState({
-//          selectedCategories: categories
-//        })
-//      } else {
-//       this.setState({
-//         selectedCategories: categories.concat(item)
-//       })
-//     }
-//   }
 
   handleExtraInfoFormSubmit = () => {
     let Answers = this.state.formAnswers;
@@ -111,7 +82,8 @@ class App extends Component {
     let checkboxAnswers = Answers.filter(obj => obj.fieldType !== 'radio');
     console.log(checkboxAnswers);
     
-     let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
+    let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
+    //getting strays that were shut off...clean up initial?
     ExtraAnswers = ExtraAnswers.filter((answer, index, self) =>
       index === self.findIndex((t) => (
         // if(answer.fieldType === 'radio'){
@@ -124,14 +96,42 @@ class App extends Component {
     console.log(ExtraAnswers);
   }
  
-  handleAddCheckbox = (item) => {
+  handleAddCheckbox = (items) => {
     console.log('in app add checkbox hangler', item);
-     this.handleFormAnswersUpdate(item, 'checkbox');
+    // let checkboxes = this.state.formAnswers;
+    let positiveCheckboxes = this.countHowManyEntriesCheckboxes(items);
+    // if(!checkboxes.includes(item)){
+       this.handleFormAnswersUpdate(positiveCheckboxes, 'checkbox');
+    //  } 
+     
   }
 
   // handleRadioUpdate = (item) => {
 
   // }
+  countHowManyEntriesCheckboxes = (arr) => {
+    let current = null;
+    let cnt = 0;
+    let a;
+    for(let i = 0; i < arr.length; i++) {
+      if (arr[i] != current) {
+        if(cnt % 2){
+          //remove if the cnt is modulo 2
+          //arr.filter(())
+          
+          //a = arr.reduce((p,c) => (c.name !== "tc_001" && p.push(c),p),[]);
+        } else {
+          cnt++;
+        }
+      }
+
+      if(cnt % 2){
+        //remove if the cnt is modulo 2
+        //arr.filter(())
+      } 
+    }
+    return a;
+  }
 
   handleFormAnswersUpdate = (val, type) => {
     let inputState = val;

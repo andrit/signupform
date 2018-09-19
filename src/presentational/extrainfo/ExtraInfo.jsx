@@ -118,22 +118,7 @@ class ExtraInfo extends Component{
         //     })
     }
 
-   
-   
-    // handleLikesClick = (e) => {
-    //     e.preventDefault();
-    //     let like = e.target.value;
-    //     //let rgxlike = like.replace('brand-', '');
-    //    // console.log(rgxlike);
-    //     this.props.handleAddLikes(like);
-    // }
 
-    // handleCategoriesClick = (e) => {
-    //     e.preventDefault();
-    //     let category = e.target.value;
-    //     //let rgxcat = category.replace('cat-', '');
-    //     this.props.handleAddCategories(category);
-    // }
 
     renderDays = () => {
         let daysarr = [];
@@ -187,7 +172,7 @@ class ExtraInfo extends Component{
        this.addCheckboxToSelectedArray(boxvalue)
       .then((value) => {
         console.log('checkbox clicked extrainfo');
-          return this.props.handleAddCheckbox(value);
+          return this.props.handleAddCheckbox(this.state.selectedCheckboxes);
       });
     }
 
