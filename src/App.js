@@ -5,7 +5,7 @@ import BasicInfo from './presentational/basicinfo';
 import ExtraInfo from './presentational/extrainfo';
 import Header from './presentational/header';
 
-import {disableScroll, enableScroll} from './utils/handlescroll';
+// import {disableScroll, enableScroll} from './utils/handlescroll';
 
 
 //const extrainfosection = React.createRef();
@@ -98,8 +98,34 @@ class App extends Component {
 //       })
 //     }
 //   }
+
+  handleExtraInfoFormSubmit = () => {
+    let Answers = this.state.formAnswers;
+    let reversedAnswers = Answers.reverse();
+    let radioAnswers= reversedAnswers.filter((answer, index, self) =>
+      index === self.findIndex((t) => (
+        t.fieldType === 'radio'
+      ))
+    );
+    console.log(radioAnswers);
+    let checkboxAnswers = Answers.filter(obj => obj.fieldType !== 'radio');
+    console.log(checkboxAnswers);
+    
+     let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
+    ExtraAnswers = ExtraAnswers.filter((answer, index, self) =>
+      index === self.findIndex((t) => (
+        // if(answer.fieldType === 'radio'){
+        //   //get last one
+        //   t.fieldType === answer.fieldType
+        // }
+        t.inputState === answer.inputState
+      ))
+    );
+    console.log(ExtraAnswers);
+  }
  
   handleAddCheckbox = (item) => {
+    console.log('in app add checkbox hangler', item);
      this.handleFormAnswersUpdate(item, 'checkbox');
   }
 
@@ -110,18 +136,25 @@ class App extends Component {
   handleFormAnswersUpdate = (val, type) => {
     let inputState = val;
     let fieldType = type;
-    this.setState(prevState => ({
-      formAnswers: [...prevState.formAnswers, {inputState, fieldType}]
-    }))
+    if(this.state.formAnswers.inputState !== inputState){
+      this.setState(prevState => ({
+        formAnswers: [...prevState.formAnswers, {inputState, fieldType}]
+      }))
+    }
+    
+    // this.setState({
+    //   ...this.state.formAnswers, 
+    //   {inputState, fieldType}
+    // })
   }
 
   // havePcrAcct
 
-  componentDidMount(){
-    if(this.state.activeSection == 'introsection'){
-        disableScroll();
-    }
-  }
+  // componentDidMount(){
+  //   if(this.state.activeSection == 'introsection'){
+  //       disableScroll();
+  //   }
+  // }
 
   renderSectionOnState = () =>{
      switch(this.state.activeSection){
@@ -146,7 +179,8 @@ class App extends Component {
                   activeSection={this.state.activeSection}
                   handleAddCheckbox={this.handleAddCheckbox}
                   handleFormAnswersUpdate={this.handleFormAnswersUpdate}
-                  selectedCheckboxes={this.state.selectedCheckboxes} />
+                  selectedCheckboxes={this.state.selectedCheckboxes}
+                  handleExtraInfoFormSubmit={this.handleExtraInfoFormSubmit} />
       break;
     }
   }

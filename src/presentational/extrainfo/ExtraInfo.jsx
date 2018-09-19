@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {TransitionAnimation} from '../../utils/TransitionAnimation';
 import {fetchPostData, fetchGetData} from '../../utils/http';
-import {CheckboxCustomInput, RadioCustomInput} from './forminputs';
+import CheckboxCustomInput from './CheckboxCustomInput';
+import RadioCustomInput from './RadioCustomInput';
 import './extrainfo.css';
 
 const whatLike = [
@@ -83,37 +84,38 @@ class ExtraInfo extends Component{
 
     handleSubmit = (e) => {
         e.preventDefault();
-        fetchPostData(this.dev_url, {
-            action : "advanced",
-            hash : "NZAYCyzl",
-            phone : this.props.phone,
-            birthday: this.props.birthday || '2015-12-31',
-            key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
-            type1 : 'radio',
-            value1 : 'NO',
+         this.props.handleExtraInfoFormSubmit();
+        // fetchPostData(this.dev_url, {
+        //     action : "advanced",
+        //     hash : "NZAYCyzl",
+        //     phone : this.props.phone,
+        //     birthday: this.props.birthday || '2015-12-31',
+        //     key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
+        //     type1 : 'radio',
+        //     value1 : 'NO',
 
-            key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
-            type2 : 'checkbox',
-            value2 : '%5B%22GE%22%2C+%22LG%22%5D',
+        //     key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
+        //     type2 : 'checkbox',
+        //     value2 : '%5B%22GE%22%2C+%22LG%22%5D',
 
-            key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
-            type3 : 'checkbox',
-            value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
-            }, 'POST', 'cors'
-        )
-            .then(res => {
-                const response = res;
-                //show them a thank you page
-                //this.props.handleSwitchSection('extrainfosection');
-            }
-            ).catch((res) => {
-                if(res instanceof Error) {
-                    console.log(res.message);
-                  } else {
-                    console.log(res.data);
-                  }
+        //     key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
+        //     type3 : 'checkbox',
+        //     value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
+        //     }, 'POST', 'cors'
+        // )
+        //     .then(res => {
+        //         const response = res;
+        //         //show them a thank you page
+        //         //this.props.handleSwitchSection('extrainfosection');
+        //     }
+        //     ).catch((res) => {
+        //         if(res instanceof Error) {
+        //             console.log(res.message);
+        //           } else {
+        //             console.log(res.data);
+        //           }
                 
-            })
+        //     })
     }
 
    
@@ -172,6 +174,7 @@ class ExtraInfo extends Component{
                 selectedCheckboxes: checkboxes.concat(item)
               })
             }
+            res(item);
           }
           catch(e){
             rej(e);
@@ -180,17 +183,21 @@ class ExtraInfo extends Component{
       }
 
     handleCheckboxClick = (boxvalue) => {
-        //let rgxlike = like.replace('brand-', '');
-       console.log('checkbox clicked extrainfo');
+       //let value = boxvalue;
        this.addCheckboxToSelectedArray(boxvalue)
-      .then(()=>this.props.handleAddCheckbox(boxvalue));
+      .then((value) => {
+        console.log('checkbox clicked extrainfo');
+          return this.props.handleAddCheckbox(value);
+      });
     }
+
     radioActiveToggle = (value) => {
         return new Promise((res, rej) => {
             try{
                 this.setState({
                     radioActiveState: value
                 })
+                res(value);
             }
             catch(e){
                 rej(e)
@@ -200,33 +207,33 @@ class ExtraInfo extends Component{
 
     handleRadioClick = (value, i) => {     
         this.radioActiveToggle(i)
-            .then(() => this.props.handleFormAnswersUpdate(value, 'radio'))
+            .then((value, i) => this.props.handleFormAnswersUpdate(value, 'radio'))
         
     }
 
-    renderCustomFormField = (type, fieldoptions) => {
+    // renderCustomFormField = (type, fieldoptions) => {
     
-        switch(type){
-            case 'radio':
-            //console.log('fieldoption radio: ', fieldoptions + ' ' + type);
-            return  <RadioCustomInput 
-                        radioActiveState={this.state.radioActiveState} 
-                        handleRadioClick={this.handleRadioClick} 
-                        options={fieldoptions} />
-            break;
-            case 'checkbox':
-            //console.log('fieldoptions checkbox: ', fieldoptions + ' ' + type);
-            return <CheckboxCustomInput 
-                        selectedBoxes={this.state.selectedCheckboxes} 
-                        handleOnClick={this.handleCheckboxClick} 
-                        options={fieldoptions} />
-            break;
-            }
-    }
+    //     switch(type){
+    //         case 'radio':
+    //         //console.log('fieldoption radio: ', fieldoptions + ' ' + type);
+    //         return  <RadioCustomInput 
+    //                     radioActiveState={this.state.radioActiveState} 
+    //                     handleRadioClick={this.handleRadioClick} 
+    //                     options={fieldoptions} />
+    //         break;
+    //         case 'checkbox':
+    //         //console.log('fieldoptions checkbox: ', fieldoptions + ' ' + type);
+    //         return <CheckboxCustomInput 
+    //                     selectedBoxes={this.state.selectedCheckboxes} 
+    //                     handleOnClick={this.handleCheckboxClick} 
+    //                     options={fieldoptions} />
+    //         break;
+    //         }
+    // }
 
     render(){
         return(
-            <section
+            <form
                 //ref={ref}
                 id="extrainfosection"
                 className="form-section text-center">
@@ -236,12 +243,28 @@ class ExtraInfo extends Component{
                 </div>
                 {this.state.customInputs.map((input, i) => {
                     //console.log('options: ', input.options);
-                    return(
-                        <div className="preference-section" key={i}>
-                            <h2>{input.name}</h2>
-                            {this.renderCustomFormField(input.type, input.options)}
-                        </div>
-                    )
+                    if(input.type === 'radio'){
+                        return(
+                            <div className="preference-section" key={i}>
+                                <h2>{input.name}</h2>
+                                    <RadioCustomInput 
+                                        radioActiveState={this.state.radioActiveState} 
+                                        handleRadioClick={this.handleRadioClick} 
+                                        options={input.options} />
+                            </div>
+                        )
+                    } else if ( input.type === 'checkbox'){
+                        return(
+                            <div className="preference-section" key={i}>
+                                <h2>{input.name}</h2>
+                                    <CheckboxCustomInput 
+                                        selectedBoxes={this.state.selectedCheckboxes} 
+                                        handleOnClick={this.handleCheckboxClick} 
+                                        options={input.options} />
+                            </div>
+                        )
+                    }
+                    
                     
                     })
                 }
@@ -312,7 +335,7 @@ class ExtraInfo extends Component{
                     
                 </div>
 
-            </section>
+            </form>
 
         )
     }

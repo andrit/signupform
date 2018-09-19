@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import './extrainfo.css';
 
-export class RadioCustomInput extends React.Component{
-    static propTypes = {
-        radioActiveState: PropTypes.string,
-        handleRadioClick: PropTypes.func,
-        options         : PropTypes.array
-    }
+export class RadioCustomInput extends Component{
+    // static propTypes = {
+    //     radioActiveState: PropTypes.string,
+    //     handleRadioClick: PropTypes.func,
+    //     options         : PropTypes.array
+    // }
      handleRadioOnClick = (e) => (i) => {
         e.preventDefault();
         let radioState = e.target.value;
@@ -19,14 +19,14 @@ export class RadioCustomInput extends React.Component{
                 {this.props.options.map((item, i) => {
                     return(
                         <label 
-                            className={this.props.radioActiveState === i ? "active-box radio-label" : "radio-label"} 
+                            className={this.props.radioActiveState === item ? "active-box radio-label" : "radio-label"} 
                             htmlFor={item + '-card'} key={i}>
                             <input 
                                 className="radio-input" 
                                 type="radio" 
                                 value={item} 
                                 id={item + '_radio'}
-                                onClick={() => this.handleRadioOnClick(i)} />
+                                onClick={() => this.handleRadioOnClick(item)} />
                             {item}
                         </label>
                     )
@@ -37,8 +37,11 @@ export class RadioCustomInput extends React.Component{
     }
     
 }
-
-export class CheckboxCustomInput extends React.Component {
+/**
+ * https://reactjs.org/docs/faq-functions.html
+ * https://css-tricks.com/react-forms-using-refs/
+ */
+export class CheckboxCustomInput extends Component {
     static propTypes = {
         selectedBoxes: PropTypes.array,
         handleOnClick: PropTypes.func,

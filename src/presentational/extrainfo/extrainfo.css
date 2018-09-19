@@ -1,5 +1,6 @@
 input[type=checkbox], input[type=radio]{
     visibility: hidden;
+    z-index: 100;
 }
 
 label{
@@ -17,10 +18,11 @@ label.active-box{
     background-color: #034694;
     color: #FFF;
 }
-.checkbox-group, .radio-group label{
+.checkbox-group label, .radio-group label{
     width: 48%;
     float: left;
     margin: 4px 0;
+    padding: 0 4px 20px;
 }
 
 /* .checkbox-group{
@@ -31,6 +33,7 @@ label.active-box{
 
 .checkbox-group input{
     font-size: 1em;
+    margin: 0;
 }
 
 .preference-section{
