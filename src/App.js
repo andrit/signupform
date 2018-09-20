@@ -22,7 +22,7 @@ class App extends Component {
     formAnswers: [],
     // selectedLikes:[],
     // selectedCategories:[],
-    
+    selectedCheckboxes:[],
     havePcrAcct: '',
     custBday:''
   }
@@ -79,68 +79,94 @@ class App extends Component {
       ))
     );
     console.log(radioAnswers);
-    let checkboxAnswers = Answers.filter(obj => obj.fieldType !== 'radio');
+    let checkboxAnswers = this.state.selectedCheckboxes;
     console.log(checkboxAnswers);
     
     let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
     //getting strays that were shut off...clean up initial?
-    ExtraAnswers = ExtraAnswers.filter((answer, index, self) =>
-      index === self.findIndex((t) => (
-        // if(answer.fieldType === 'radio'){
-        //   //get last one
-        //   t.fieldType === answer.fieldType
-        // }
-        t.inputState === answer.inputState
-      ))
-    );
+    // ExtraAnswers = ExtraAnswers.filter((answer, index, self) =>
+    //   index === self.findIndex((t) => (
+    //     // if(answer.fieldType === 'radio'){
+    //     //   //get last one
+    //     //   t.fieldType === answer.fieldType
+    //     // }
+    //     t.inputState === answer.inputState
+    //   ))
+    // );
     console.log(ExtraAnswers);
   }
  
-  handleAddCheckbox = (items) => {
-    console.log('in app add checkbox hangler', item);
-    // let checkboxes = this.state.formAnswers;
-    let positiveCheckboxes = this.countHowManyEntriesCheckboxes(items);
-    // if(!checkboxes.includes(item)){
-       this.handleFormAnswersUpdate(positiveCheckboxes, 'checkbox');
-    //  } 
-     
+  handleAddCheckbox = () => {
+    console.log('in app add checkbox hangler');
+    let checkboxes = this.state.selectedCheckboxes;
+
+    // let positiveCheckboxes = this.countHowManyEntriesCheckboxes(items);
+       this.handleFormAnswersUpdate(checkboxes, 'checkbox');    
   }
 
-  // handleRadioUpdate = (item) => {
-
-  // }
-  countHowManyEntriesCheckboxes = (arr) => {
-    let current = null;
-    let cnt = 0;
-    let a;
-    for(let i = 0; i < arr.length; i++) {
-      if (arr[i] != current) {
-        if(cnt % 2){
-          //remove if the cnt is modulo 2
-          //arr.filter(())
-          
-          //a = arr.reduce((p,c) => (c.name !== "tc_001" && p.push(c),p),[]);
-        } else {
-          cnt++;
+  addCheckboxToSelectedArray = (item) => {
+    return new Promise((res, rej) => {
+      try{
+        let checkboxes = this.state.selectedCheckboxes;
+        if(checkboxes.includes(item)){
+          let indexof = checkboxes.indexOf(item);
+           let removedcheckboxes = checkboxes.splice(indexof, 1);
+           this.setState({
+             selectedCheckboxes: checkboxes
+           })
+         } else {
+          this.setState({
+            selectedCheckboxes: checkboxes.concat(item)
+          })
         }
+        res(item);
       }
-
-      if(cnt % 2){
-        //remove if the cnt is modulo 2
-        //arr.filter(())
-      } 
-    }
-    return a;
+      catch(e){
+        rej(e);
+      }
+    })
   }
+  // countHowManyEntriesCheckboxes = (arr) => {
+  //   let current = null;
+  //   let cnt = 0;
+  //   let a;
+  //   for(let i = 0; i < arr.length; i++) {
+  //     if (arr[i] != current) {
+  //       if(cnt % 2){
+  //         //remove if the cnt is modulo 2
+  //         //arr.filter(())
+          
+  //         //a = arr.reduce((p,c) => (c.name !== "tc_001" && p.push(c),p),[]);
+  //       } else {
+  //         cnt++;
+  //       }
+  //     }
+
+  //     if(cnt % 2){
+  //       //remove if the cnt is modulo 2
+  //       //arr.filter(())
+  //     } 
+  //   }
+  //   return a;
+  // }
 
   handleFormAnswersUpdate = (val, type) => {
     let inputState = val;
     let fieldType = type;
-    if(this.state.formAnswers.inputState !== inputState){
-      this.setState(prevState => ({
-        formAnswers: [...prevState.formAnswers, {inputState, fieldType}]
-      }))
-    }
+    // if(this.state.formAnswers.inputState !== inputState){
+      if(Array.isArray(val)){
+        val.forEach(v => {
+          this.setState(prevState => ({
+            formAnswers: [...prevState.formAnswers, {v, fieldType}]
+          }))
+        })
+      } else {
+        this.setState(prevState => ({
+          formAnswers: [...prevState.formAnswers, {inputState, fieldType}]
+        }))
+      }
+      
+    // }
     
     // this.setState({
     //   ...this.state.formAnswers, 
@@ -180,7 +206,8 @@ class App extends Component {
                   handleAddCheckbox={this.handleAddCheckbox}
                   handleFormAnswersUpdate={this.handleFormAnswersUpdate}
                   selectedCheckboxes={this.state.selectedCheckboxes}
-                  handleExtraInfoFormSubmit={this.handleExtraInfoFormSubmit} />
+                  handleExtraInfoFormSubmit={this.handleExtraInfoFormSubmit} 
+                  addCheckboxToSelectedArray = {this.addCheckboxToSelectedArray} />
       break;
     }
   }

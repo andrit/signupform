@@ -33,7 +33,7 @@ class ExtraInfo extends Component{
         days: [],
         years: [],
         customInputs:[],
-        selectedCheckboxes:[],
+        // selectedCheckboxes:[],
         radioActiveState: null
     }
 
@@ -120,60 +120,65 @@ class ExtraInfo extends Component{
 
 
 
-    renderDays = () => {
-        let daysarr = [];
-        let days = 0;
-        for(var count = 1; count < 32; count++){
-            days++;
-            daysarr.push(days);
-        }
-        this.setState({
-            days:daysarr
-        });
-    }
+    // renderDays = () => {
+    //     let daysarr = [];
+    //     let days = 0;
+    //     for(var count = 1; count < 32; count++){
+    //         days++;
+    //         daysarr.push(days);
+    //     }
+    //     this.setState({
+    //         days:daysarr
+    //     });
+    // }
 
-    renderYears = () => {
-        let yearsarr = [];
-        let years = 1920;
-        for(var count = 1; count < 81; count++){
-            years++;
-            yearsarr.push(years);
-        }
-        this.setState({
-            years:yearsarr
-        });
-    }
+    // renderYears = () => {
+    //     let yearsarr = [];
+    //     let years = 1920;
+    //     for(var count = 1; count < 81; count++){
+    //         years++;
+    //         yearsarr.push(years);
+    //     }
+    //     this.setState({
+    //         years:yearsarr
+    //     });
+    // }
 
-    addCheckboxToSelectedArray = (item) => {
-        return new Promise((res, rej) => {
-          try{
-            let checkboxes = this.state.selectedCheckboxes;
-            if(checkboxes.includes(item)){
-              let indexof = checkboxes.indexOf(item);
-               let removedcheckboxes = checkboxes.splice(indexof, 1);
-               this.setState({
-                 selectedCheckboxes: checkboxes
-               })
-             } else {
-              this.setState({
-                selectedCheckboxes: checkboxes.concat(item)
-              })
-            }
-            res(item);
-          }
-          catch(e){
-            rej(e);
-          }
-        })
-      }
+    // addCheckboxToSelectedArray = (item) => {
+    //     return new Promise((res, rej) => {
+    //       try{
+    //         let checkboxes = this.state.selectedCheckboxes;
+    //         if(checkboxes.includes(item)){
+    //           let indexof = checkboxes.indexOf(item);
+    //            let removedcheckboxes = checkboxes.splice(indexof, 1);
+    //            this.setState({
+    //              selectedCheckboxes: checkboxes
+    //            })
+    //          } else {
+    //           this.setState({
+    //             selectedCheckboxes: checkboxes.concat(item)
+    //           })
+    //         }
+    //         res(item);
+    //       }
+    //       catch(e){
+    //         rej(e);
+    //       }
+    //     })
+    //   }
 
-    handleCheckboxClick = (boxvalue) => {
-       //let value = boxvalue;
-       this.addCheckboxToSelectedArray(boxvalue)
-      .then((value) => {
-        console.log('checkbox clicked extrainfo');
-          return this.props.handleAddCheckbox(this.state.selectedCheckboxes);
-      });
+     //way with dyn programming in app and selectedChecboxes state here   
+    // handleCheckboxClick = (boxvalue) => {
+    //    //let value = boxvalue;
+    //    this.addCheckboxToSelectedArray(boxvalue)
+    //   .then((value) => {
+    //     console.log('checkbox clicked extrainfo');
+    //       return this.props.handleAddCheckbox(this.state.selectedCheckboxes);
+    //   });
+    // }
+
+    handleCheckboxClick = (boxValue) => {
+        return this.props.addCheckboxToSelectedArray(boxValue);
     }
 
     radioActiveToggle = (value) => {
@@ -243,7 +248,7 @@ class ExtraInfo extends Component{
                             <div className="preference-section" key={i}>
                                 <h2>{input.name}</h2>
                                     <CheckboxCustomInput 
-                                        selectedBoxes={this.state.selectedCheckboxes} 
+                                        selectedBoxes={this.props.selectedCheckboxes} 
                                         handleOnClick={this.handleCheckboxClick} 
                                         options={input.options} />
                             </div>
@@ -256,7 +261,7 @@ class ExtraInfo extends Component{
 
 
 
-                <div className="preference-section">
+                {/* <div className="preference-section">
                     <h2>Receive Gifts on your Birthday!</h2>
                     <div className="bday-selectgroup-wrap">
                         <div className="select-group">
@@ -312,13 +317,14 @@ class ExtraInfo extends Component{
                                 })}
                             </select>
                         </div>
-                    </div>
+                    </div> 
+                </div>*/}
 
                     <div className="accept-submit">
                         <button className="pcrbtn btn-red" onClick={this.handleSubmit}>Add My Additional Info</button>
                     </div>
                     
-                </div>
+                
 
             </form>
 
