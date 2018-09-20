@@ -7,8 +7,9 @@ class CheckboxCustomInput extends Component {
     handleCheckboxOnClick = (e) => {
         e.preventDefault();
         let checkboxState = e.target.childNodes[0].value;
+        let hash = this.props.hash;
         console.log(checkboxState);
-        return this.props.handleOnClick(checkboxState);
+        return this.props.handleOnClick(checkboxState, hash);
     }
     render(){
         return(
@@ -18,7 +19,7 @@ class CheckboxCustomInput extends Component {
                     return(
                     
                         <label 
-                            className={this.props.selectedBoxes.includes(item) ? "active-box checkbox-label" : "checkbox-label"} 
+                            className={this.props.selectedBoxes.some(e => e.value === item) ? "active-box checkbox-label" : "checkbox-label"} 
                             htmlFor={item}
                             key={i}
                             onClick={(e) => this.handleCheckboxOnClick(e)}>

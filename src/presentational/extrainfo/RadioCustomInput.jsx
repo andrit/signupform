@@ -4,29 +4,14 @@ import './extrainfo.css';
 
 class RadioCustomInput extends Component{
 
-    // state={
-    //     isChecked: false
-    // }
-    
-    // setLocalState = () => {
-    //     return new Promise((res, rej)=>{
-    //         try{
-    //             this.setState({
-    //                 isChecked: true
-    //             })
-    //         }
-    //         catch(e){
-    //             rej(e)
-    //         }
-    //     })
-    // } 
     handleRadioOnClick = (e) => {
         e.preventDefault();
         let radioState = e.target.childNodes[0].value;
-        let radioName = e.target.childNodes[0].name;
+        //let radioName = e.target.childNodes[0].name;
+        let hash = this.props.hash;
         // this.setLocalState()
         // .then(() =>  this.props.handleRadioClick(radioState, radioName))
-        this.props.handleRadioClick(radioState, radioName)
+        this.props.handleRadioClick(radioState, hash)
         // console.log(radioState);
        
     }
@@ -46,7 +31,7 @@ class RadioCustomInput extends Component{
                                 className="radio-input" 
                                 type="radio"
                                 name={item} 
-                                value={item} 
+                                value={item}
                                 id={item + '_radio'}
                                  />
                             {item}

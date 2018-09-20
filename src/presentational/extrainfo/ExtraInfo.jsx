@@ -32,6 +32,9 @@ class ExtraInfo extends Component{
     state={
         days: [],
         years: [],
+        birthDay: '',
+        birthYear: '',
+        birthMonth: '',
         customInputs:[],
         // selectedCheckboxes:[],
         radioActiveState: null
@@ -67,6 +70,7 @@ class ExtraInfo extends Component{
                 return comparison;
             }
             const FormFields = getData.formFields.sort(compare);
+            console.log(FormFields);
             this.setState({
                 customInputs: FormFields
             })
@@ -81,91 +85,183 @@ class ExtraInfo extends Component{
         })
     }
     
+    // transformAnswerForDataTransport = (answers) => {
+    //     let n =1;
+    //     return answers.map(answer => {
+    //         n++;
+    //         // return key.n : answer.key,
+    //         //         type.n : answer.fieldType,
+    //         //          value.n : answer.inputState
+    //         return {
+    //                 key : answer.hashKey,
+    //                 type : answer.fieldType,
+    //                 value : answer.inputState
+    //                 }
+    //     })
+    // }
 
+    // transformArrayToObject = (arr) => {
+    //     let obj = {};
+    //     for(let i = 0; i < arr.length; ++i){
+    //         if(arr[i] !== undefined){
+    //             obj[i] = arr[i];
+    //         }
+    //     }
+    //     return obj;
+    // }
+
+    // handleInitialFormSave = () => {
+    //     return new Promise((res, rej) => {
+    //         try{
+    //             this.props.handleExtraInfoFormSubmit()
+    //             res();
+    //         }
+    //         catch(e){
+    //             rej(e)
+    //         }
+    //     })
+    // }
+
+    // handleSubmit = (e) => {
+    //     e.preventDefault();
+    //      this.handleInitialFormSave()
+    //      .then(() => {
+    //          let ExtraAnswers = this.props.formAnswers;
+    //         console.log('extraanswers in extrainfo: '. ExtraAnswers);
+    //         //turn extraanswers into correct format
+    //        let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
+    //        // let AnswersObject = this.transformArrayToObject(AnswersArray);
+    //        console.log('array: '. AnswersArray);
+    //        // console.log('object: '. AnswersObject);
+    //         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
+    //        fetchPostData(this.dev_url, {
+    //            action : "advanced",
+    //            hash : "NZAYCyzl",
+    //            phone : this.props.phone,
+    //            birthday: birthday,
+    //            key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
+    //            type1 : 'radio',
+    //            value1 : 'NO',
+   
+    //            key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
+    //            type2 : 'checkbox',
+    //            value2 : '%5B%22GE%22%2C+%22LG%22%5D',
+   
+    //            key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
+    //            type3 : 'checkbox',
+    //            value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
+    //            }, 'POST', 'cors')
+    //            .then(res => {
+    //                const response = res;
+    //                //show them a thank you page
+    //                //this.props.handleSwitchSection('extrainfosection');
+    //            }
+    //            ).catch((res) => {
+    //                if(res instanceof Error) {
+    //                    console.log(res.message);
+    //                  } else {
+    //                    console.log(res.data);
+    //                  }
+                   
+    //            })
+    //      })
+       
+    // }
     handleSubmit = (e) => {
         e.preventDefault();
-         this.props.handleExtraInfoFormSubmit();
-        // fetchPostData(this.dev_url, {
-        //     action : "advanced",
-        //     hash : "NZAYCyzl",
-        //     phone : this.props.phone,
-        //     birthday: this.props.birthday || '2015-12-31',
-        //     key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
-        //     type1 : 'radio',
-        //     value1 : 'NO',
-
-        //     key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
-        //     type2 : 'checkbox',
-        //     value2 : '%5B%22GE%22%2C+%22LG%22%5D',
-
-        //     key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
-        //     type3 : 'checkbox',
-        //     value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
-        //     }, 'POST', 'cors'
-        // )
-        //     .then(res => {
-        //         const response = res;
-        //         //show them a thank you page
-        //         //this.props.handleSwitchSection('extrainfosection');
-        //     }
-        //     ).catch((res) => {
-        //         if(res instanceof Error) {
-        //             console.log(res.message);
-        //           } else {
-        //             console.log(res.data);
-        //           }
-                
-        //     })
+        let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
+         this.props.submitform(birthday);
+         //setTimeout(this.formFetch, 0);        
     }
 
-
-
-    // renderDays = () => {
-    //     let daysarr = [];
-    //     let days = 0;
-    //     for(var count = 1; count < 32; count++){
-    //         days++;
-    //         daysarr.push(days);
-    //     }
-    //     this.setState({
-    //         days:daysarr
-    //     });
-    // }
-
-    // renderYears = () => {
-    //     let yearsarr = [];
-    //     let years = 1920;
-    //     for(var count = 1; count < 81; count++){
-    //         years++;
-    //         yearsarr.push(years);
-    //     }
-    //     this.setState({
-    //         years:yearsarr
-    //     });
-    // }
-
-    // addCheckboxToSelectedArray = (item) => {
-    //     return new Promise((res, rej) => {
-    //       try{
-    //         let checkboxes = this.state.selectedCheckboxes;
-    //         if(checkboxes.includes(item)){
-    //           let indexof = checkboxes.indexOf(item);
-    //            let removedcheckboxes = checkboxes.splice(indexof, 1);
-    //            this.setState({
-    //              selectedCheckboxes: checkboxes
+    // formFetch = () => {
+    //     let ExtraAnswers = this.props.formAnswers;
+    //         console.log('extraanswers in extrainfo: '. ExtraAnswers);
+    //         //turn extraanswers into correct format
+    //        let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
+    //        // let AnswersObject = this.transformArrayToObject(AnswersArray);
+    //        console.log('array: '. AnswersArray);
+    //        // console.log('object: '. AnswersObject);
+    //         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
+    //        fetchPostData(this.dev_url, {
+    //            action : "advanced",
+    //            hash : "NZAYCyzl",
+    //            phone : this.props.phone,
+    //            birthday: birthday,
+    //            key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
+    //            type1 : 'radio',
+    //            value1 : 'NO',
+   
+    //            key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
+    //            type2 : 'checkbox',
+    //            value2 : '%5B%22GE%22%2C+%22LG%22%5D',
+   
+    //            key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
+    //            type3 : 'checkbox',
+    //            value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
+    //            }, 'POST', 'cors')
+    //            .then(res => {
+    //                const response = res;
+    //                //show them a thank you page
+    //                //this.props.handleSwitchSection('extrainfosection');
+    //            }
+    //            ).catch((res) => {
+    //                if(res instanceof Error) {
+    //                    console.log(res.message);
+    //                  } else {
+    //                    console.log(res.data);
+    //                  }
+                   
     //            })
-    //          } else {
-    //           this.setState({
-    //             selectedCheckboxes: checkboxes.concat(item)
-    //           })
-    //         }
-    //         res(item);
-    //       }
-    //       catch(e){
-    //         rej(e);
-    //       }
-    //     })
-    //   }
+    // }
+
+
+
+    renderDays = () => {
+        let daysarr = [];
+        let days = 0;
+        for(var count = 1; count < 32; count++){
+            days++;
+            daysarr.push(days);
+        }
+        this.setState({
+            days:daysarr
+        });
+    }
+
+    renderYears = () => {
+        let yearsarr = [];
+        let years = 1920;
+        for(var count = 1; count < 81; count++){
+            years++;
+            yearsarr.push(years);
+        }
+        this.setState({
+            years:yearsarr
+        });
+    }
+
+    handleChooseMonthBday = (e) => {
+        let value = e.target.value;
+        this.setState({
+            birthMonth: value
+        })
+        
+    }
+    handleChooseYearBday = (e) => {
+        let value = e.target.value;
+        this.setState({
+            birthYear: value
+        })
+
+    }
+    handleChooseDayBday = (e) => {
+        let value = e.target.value;
+        this.setState({
+            birthDay: value
+        })
+    }
+
 
      //way with dyn programming in app and selectedChecboxes state here   
     // handleCheckboxClick = (boxvalue) => {
@@ -176,50 +272,18 @@ class ExtraInfo extends Component{
     //       return this.props.handleAddCheckbox(this.state.selectedCheckboxes);
     //   });
     // }
-
-    handleCheckboxClick = (boxValue) => {
-        return this.props.addCheckboxToSelectedArray(boxValue);
+    //checkbox click handler
+    handleCheckboxClick = (boxValue, hash) => {
+        return this.props.addCheckboxToSelectedArray(boxValue, hash);
     }
 
-    radioActiveToggle = (value) => {
-        return new Promise((res, rej) => {
-            try{
-                this.setState({
-                    radioActiveState: value
-                })
-                res(value);
-            }
-            catch(e){
-                rej(e)
-            }
-            });
-        }
-
-    handleRadioClick = (value, i) => {     
-        this.radioActiveToggle(i)
-            .then((value, i) => this.props.handleFormAnswersUpdate(value, 'radio'))
+    handleRadioClick = (value, hash) => {     
+        this.setState({
+            radioActiveState: value
+        })
+       this.props.handleRadioAnswersUpdate(value, 'radio', hash);
         
     }
-
-    // renderCustomFormField = (type, fieldoptions) => {
-    
-    //     switch(type){
-    //         case 'radio':
-    //         //console.log('fieldoption radio: ', fieldoptions + ' ' + type);
-    //         return  <RadioCustomInput 
-    //                     radioActiveState={this.state.radioActiveState} 
-    //                     handleRadioClick={this.handleRadioClick} 
-    //                     options={fieldoptions} />
-    //         break;
-    //         case 'checkbox':
-    //         //console.log('fieldoptions checkbox: ', fieldoptions + ' ' + type);
-    //         return <CheckboxCustomInput 
-    //                     selectedBoxes={this.state.selectedCheckboxes} 
-    //                     handleOnClick={this.handleCheckboxClick} 
-    //                     options={fieldoptions} />
-    //         break;
-    //         }
-    // }
 
     render(){
         return(
@@ -240,7 +304,8 @@ class ExtraInfo extends Component{
                                     <RadioCustomInput 
                                         radioActiveState={this.state.radioActiveState} 
                                         handleRadioClick={this.handleRadioClick} 
-                                        options={input.options} />
+                                        options={input.options}
+                                        hash={input.hash} />
                             </div>
                         )
                     } else if ( input.type === 'checkbox'){
@@ -250,7 +315,8 @@ class ExtraInfo extends Component{
                                     <CheckboxCustomInput 
                                         selectedBoxes={this.props.selectedCheckboxes} 
                                         handleOnClick={this.handleCheckboxClick} 
-                                        options={input.options} />
+                                        options={input.options}
+                                        hash={input.hash} />
                             </div>
                         )
                     }
@@ -261,46 +327,32 @@ class ExtraInfo extends Component{
 
 
 
-                {/* <div className="preference-section">
+                <div className="preference-section">
                     <h2>Receive Gifts on your Birthday!</h2>
                     <div className="bday-selectgroup-wrap">
                         <div className="select-group">
-                            <select>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="0">Month </option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="january">January</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="february">february</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="march">march</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="april">april</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="may">may</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="june">june</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="july">july</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="august">august</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="september">september</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="october">october</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="november">november</option>
-                                <option onChange={this.handleChooseMonthBday} 
-                                        value="december">december</option>
+                            <select onChange={this.handleChooseMonthBday} value={this.state.birthMonth}>
+                                <option value="0">Month </option>
+                                <option value="1">January</option>
+                                <option value="2">february</option>
+                                <option value="3">march</option>
+                                <option value="4">april</option>
+                                <option value="5">may</option>
+                                <option value="6">june</option>
+                                <option value="7">july</option>
+                                <option value="8">august</option>
+                                <option value="9">september</option>
+                                <option value="10">october</option>
+                                <option value="11">november</option>
+                                <option value="12">december</option>
                             </select>
                         </div>
 
                         <div className="select-group">
-                            <select>
+                            <select onChange={this.handleChooseDayBday} value ={this.state.birthDay}>
                                 <option value="0">Day </option>
                                 {this.state.days.map((day, i) => {
                                     return <option key={i} 
-                                                    onChange={this.handleChooseDayBday}
                                                     value={day}>{day}</option>
                                 })}
                                 
@@ -308,17 +360,16 @@ class ExtraInfo extends Component{
                         </div>
 
                         <div className="select-group">
-                            <select>
+                            <select onChange={this.handleChooseYearBday}  value={this.state.birthYear}>
                                 <option value="0">Year </option>
                                 {this.state.years.map((year, i) => {
                                     return <option key={i}
-                                                    onChange={this.handleChooseYearBday} 
                                                     value={year}>{year}</option>
                                 })}
                             </select>
                         </div>
                     </div> 
-                </div>*/}
+                </div>
 
                     <div className="accept-submit">
                         <button className="pcrbtn btn-red" onClick={this.handleSubmit}>Add My Additional Info</button>
