@@ -31,7 +31,10 @@ class App extends Component {
     formAnswers:[]
   }
   
-  static formAnswers;
+  // static formAnswers;
+
+  dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
+  prod_url = "https://apps.pcrichard.com/superphone/";
 
   componentDidMount() {
     const urlParms = new URLSearchParams(window.location.search);
@@ -89,7 +92,7 @@ class App extends Component {
       console.log(radioAnswers);
   
       let checkboxAnswers = this.state.selectedCheckboxes.map(box => {
-        return ({ inputState: box.value, fieldType: "checkbox", hashkey: box.hashKey })
+        return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hashKey })
       });
       console.log(checkboxAnswers);
       
@@ -168,12 +171,15 @@ class App extends Component {
      this.handleExtraInfoFormSubmit()
      .then(() => {
        let answers = this.state.formAnswers;
-
+       const birthday = bday;
        let flatObj = this.flattenObject(answers);
-       const submitObj = Object.assign({}, flatObj);
+       const submitObj = Object.assign({action : "advanced",
+                                        hash : "NZAYCyzl",
+                                        phone : this.state.phone,
+                                        birthday: birthday}, flatObj);
        console.log(submitObj);
 
-        const birthday = bday;
+       
         // let ExtraAnswers = this.state.formAnswers;
         // console.log('extraanswers in extrainfo: '. ExtraAnswers);
         // //turn extraanswers into correct format
@@ -182,27 +188,11 @@ class App extends Component {
         // console.log('array: '. AnswersArray);
         // console.log('object: '. AnswersObject);
        
-       fetchPostData(this.dev_url, {
-           action : "advanced",
-           hash : "NZAYCyzl",
-           phone : this.props.phone,
-           birthday: birthday,
-           key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
-           type1 : 'radio',
-           value1 : 'NO',
-
-           key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
-           type2 : 'checkbox',
-           value2 : '%5B%22GE%22%2C+%22LG%22%5D',
-
-           key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
-           type3 : 'checkbox',
-           value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
-           }, 'POST', 'cors')
+       fetchPostData(this.dev_url, submitObj, 'POST', 'cors')
            .then(res => {
                const response = res;
                //show them a thank you page
-               //this.props.handleSwitchSection('extrainfosection');
+               //this.props.handleSwitchSection('thankyousection');
            }
            ).catch((res) => {
                if(res instanceof Error) {
