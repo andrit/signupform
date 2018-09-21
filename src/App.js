@@ -25,6 +25,7 @@ class App extends Component {
     // selectedLikes:[],
     // selectedCategories:[],
     selectedCheckboxes:[],
+    selectedCheckboxesFinal:[],
     // radioButtons: [],
     havePcrAcct: '',
     // custBday:'',
@@ -91,7 +92,8 @@ class App extends Component {
       );
       console.log(radioAnswers);
   
-      let checkboxAnswers = this.state.selectedCheckboxes.map(box => {
+      let checkboxAnswers = this.state.selectedCheckboxesFinal.map(box => {
+        //if(box.hashKey )
         return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hashKey })
       });
       console.log(checkboxAnswers);
@@ -231,32 +233,71 @@ class App extends Component {
   //     })
   //   }
   // }
+
+  combineValuesPerHash = (arr, hash, item) => {
+    let valArr = [], emptyValArr, cbValues = [];
+    for(let i = 0; i < arr.length; i++) {
+      if(arr[i]['hashKey'] === hash){
+        console.log('hash Same: ', hash);
+       valArr = valArr.concat(item);
+       cbValues = cbValues.concat({value: valArr, hashKey: hash});
+       return cbValues;
+      } else {
+        emptyValArr = Array.from(item);
+        cbValues = cbValues.concat({value: emptyValArr, hashKey: hash});
+        return cbValues;
+      }
+    }
+   };
+
   addCheckboxToSelectedArray = (item, hash) => {
     return new Promise((res, rej) => {
       try{
         let checkboxes = this.state.selectedCheckboxes;
+        let checkboxesFinal = this.state.selectedCheckboxesFinal;
         //checkboxes = checkboxes.filter(box => box[value] !== checkboxes[value]);
         // if(checkboxes[value] = item){
         // if(checkboxes.includes(item)){
         if(checkboxes.some(e => e.value === item)){
+         //let valArr;
           //  let indexof = checkboxes.indexOf(item);
            const findIndexOf = function(arr, val){
              for(let i = 0; i < arr.length; i++) {
                if(arr[i]['value'] === val){
                  return i;
                }
+               
+              //  return 1;
+             }
+           };
+           const findIndexOfFinal = function(arr, val){
+             for(let i = 0; i < arr.length; i++) {
+              for(let j = 0; j < arr[i]['value'].length; j++) {
+               if(arr[i]['value'][j] === val){
+                 return j;
+               }
+              }
               //  return 1;
              }
            };
            let indexOf = findIndexOf(checkboxes, item);
+           let indexOfFinal = findIndexOfFinal(checkboxesFinal, item);
            console.log('item index: ', indexOf);
-            let removedcheckboxes = checkboxes.splice(indexOf, 1);
+            let removedCheckboxes = checkboxes.splice(indexOf, 1);
+            let removedcheckboxesFinal = checkboxesFinal.splice(indexOfFinal, 1);
            this.setState({
+             //for ajax
+            selectedCheckboxesFinal: checkboxesFinal,
+            //for UI
              selectedCheckboxes: checkboxes
            })
-         } else {
+         } else {          
+          let valueArr = this.combineValuesPerHash(checkboxesFinal, hash, item);
           this.setState({
-            selectedCheckboxes: checkboxes.concat({value:item, hashKey:hash})
+            //for ajax
+            selectedCheckboxesFinal: checkboxesFinal.concat(valueArr),
+            //for ui
+            selectedCheckboxes: checkboxes.concat({value: item, hashKey: hash})
           })
         }
         res(item);
