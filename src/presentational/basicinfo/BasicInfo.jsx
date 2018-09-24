@@ -97,18 +97,20 @@ import './basicinfo.css';
     
     handleSubmit = (e) => {
         e.preventDefault();
-        
-        fetchPostData(this.dev_url, {
-            action : "basic",
-            hash : "NZAYCyzl",
-            phone : this.props.phone,
-            firstName : this.props.firstname,
-            lastName : this.props.lastname,
-            email : this.props.email,
-            }, 'POST', 'cors'
-        )
+        this.props.isLoading();
+        //this.setState({ loading: true }, () => {
+            fetchPostData(this.dev_url, {
+                action : "basic",
+                hash : "NZAYCyzl",
+                phone : this.props.phone,
+                firstName : this.props.firstname,
+                lastName : this.props.lastname,
+                email : this.props.email,
+                }, 'POST', 'cors'
+            )
             .then(res => {
                 const response = res;
+                this.props.notLoading();
                 this.props.handleSwitchSection('extrainfosection');
             }
             ).catch((res) => {
@@ -120,6 +122,7 @@ import './basicinfo.css';
                 //console.log(error);
                 this.props.handleSwitchSection('extrainfosection');
             })
+       // });
     }
 
       render(){

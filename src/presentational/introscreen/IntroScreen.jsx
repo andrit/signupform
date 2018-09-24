@@ -23,6 +23,7 @@ class IntroScreen extends Component{
    
     handleSubmit = (e) => {
         e.preventDefault();
+        this.props.isLoading();
         const acceptTexts= '';
         axios.post(acceptTexts)
             .then(res => {
@@ -31,9 +32,10 @@ class IntroScreen extends Component{
                 
             }
             )
-            .then( () => { this.setState({ textsAccepted: true}) })
+            .then( () => { this.props.notLoading(); this.setState({ textsAccepted: true}) })
             .catch((error) => {
                 console.log(error);
+                this.props.notLoading();
                 //remove these when we have an ajax route that works
                 this.props.handleSwitchSection('basicinfosection');
                 this.setState({ textsAccepted: true}) 

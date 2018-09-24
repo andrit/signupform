@@ -55,7 +55,10 @@ class ExtraInfo extends Component{
        // superphone APi
        const apiurl= 'https://superphone.io/f/NZAYCyzl';
        fetchGetData(apiurl)
-        .then(res => res.json())
+        .then(res => {
+           
+            return res.json();
+        })
         .then(data => {
             let getData = data;
             function compare(a, b) {
@@ -170,7 +173,8 @@ class ExtraInfo extends Component{
     handleSubmit = (e) => {
         e.preventDefault();
         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
-         this.props.submitform(birthday);
+        this.props.isLoading(); 
+        this.props.submitform(birthday);
          //setTimeout(this.formFetch, 0);        
     }
 

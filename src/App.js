@@ -4,6 +4,7 @@ import IntroScreen from './presentational/introscreen';
 import BasicInfo from './presentational/basicinfo';
 import ExtraInfo from './presentational/extrainfo';
 import Header from './presentational/header';
+import LoadingSpinner from './utils/LoadingSpinner';
 
 import {fetchPostData} from './utils/http';
 
@@ -29,7 +30,8 @@ class App extends Component {
     // radioButtons: [],
     havePcrAcct: '',
     // custBday:'',
-    formAnswers:[]
+    formAnswers:[],
+    loading: false
   }
   
   // static formAnswers;
@@ -39,6 +41,18 @@ class App extends Component {
 
   componentDidMount() {
     const urlParms = new URLSearchParams(window.location.search);
+  }
+
+  isLoading = () => {
+    this.setState({
+      loading: true
+    })
+  }
+
+  notLoading = () => {
+    this.setState({
+      loading: false
+    })
   }
 
   updateFieldValue = (stateprop, value) => {
@@ -91,10 +105,12 @@ class App extends Component {
         ))
       );
       console.log(radioAnswers);
-  
-      let checkboxAnswers = this.state.selectedCheckboxesFinal.map(box => {
+          // where createApiCheckboxArray() will provide new values
+      let cba = this.createApiCheckboxArray(this.state.selectedCheckboxes);
+      console.log('cba: ', cba);
+      let checkboxAnswers = cba.map(box => {
         //if(box.hashKey )
-        return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hashKey })
+        return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hash })
       });
       console.log(checkboxAnswers);
       
@@ -143,42 +159,77 @@ class App extends Component {
               obj[i] = arr[i];
           }
       }
+    
       return obj;
+      
   }
 
-   flattenObject = (ob) => {
-    let toReturn = {};
-    
-    for (let i in ob) {
-      if (!ob.hasOwnProperty(i)) continue;
-      
-      if ((typeof ob[i]) == 'object') {
-        let flatObject = this.flattenObject(ob[i]);
-        for (let x in flatObject) {
-          if (!flatObject.hasOwnProperty(x)) continue;
-          
-          // toReturn[i + '.' + x] = flatObject[x];
-          toReturn[x + i] = flatObject[x];
-        }
-      } else {
-        toReturn[i] = ob[i];
+  flattenObject = (object, separator = '') => {
+
+    const isValidObject = value => {
+      if (!value) {
+        return false
       }
+  
+      const isArray  = Array.isArray(value);
+      const isObject = Object.prototype.toString.call(value) === '[object Object]';
+      const hasKeys  = !!Object.keys(value).length;
+  
+      return !isArray && isObject && hasKeys
     }
-    return toReturn;
+  
+    const walker = (child, path = []) => {
+  
+      return Object.assign({}, ...Object.keys(child).map(key => isValidObject(child[key])
+        ? walker(child[key], path.concat([key]).reverse())
+        : { [path.concat([key]).reverse().join(separator)] : child[key] })
+      )
+    }
+  
+    return Object.assign({}, walker(object))
   };
 
-  //submit whole form
 
+  updateObjFromZeroIndex = (obj, fn) => {
+    const objKeys = Object.keys(obj);
+    let result;
+    
+    for (var i = 0; i < objKeys.length; i++) {
+      let key = objKeys[i]; 
+      let val = obj[key];
+      let cb = fn(key, val);
+
+      if (cb !== '') {
+        key = cb;
+      }
+      result[key] = val;
+    }
+
+      return result;
+    }
+
+
+  //submit whole for
   submitform = (bday) => {
      this.handleExtraInfoFormSubmit()
      .then(() => {
        let answers = this.state.formAnswers;
-       const birthday = bday;
+       const birthday = bday; 
+
        let flatObj = this.flattenObject(answers);
+       let answerObj = this.updateObjFromZeroIndex(flatObj, function(key, val){
+        let numKey = key.slice(-1);  
+        let sumKey = parseInt(numKey) +1;
+        let wordKey = key.slice(0, -1);
+        let updatedKey = wordKey + sumKey;
+        console.log(updatedKey); 
+        return  updatedKey;
+       });
+
        const submitObj = Object.assign({action : "advanced",
                                         hash : "NZAYCyzl",
                                         phone : this.state.phone,
-                                        birthday: birthday}, flatObj);
+                                        birthday: birthday}, answerObj);
        console.log(submitObj);
 
        
@@ -193,6 +244,7 @@ class App extends Component {
        fetchPostData(this.dev_url, submitObj, 'POST', 'cors')
            .then(res => {
                const response = res;
+               console.log(response);
                //show them a thank you page
                //this.props.handleSwitchSection('thankyousection');
            }
@@ -216,87 +268,54 @@ class App extends Component {
        this.handleFormAnswersUpdate(checkboxes.value, 'checkbox', checkboxes.key);    
   }
 
-  // handleAddRadios = () => {
-  //   let radiobtns = this.state.radioButtons;
 
-  // }
+  //NEW! 9/23 pass in this.state.formAnswers
+  createApiCheckboxArray = (arr) => {
+    let temparray = [];
+    let newarray = [];
 
-  // addRadioToResultsArray = (item, hash) => {
-  //   let radioButtonSet = this.state.radioButtons;
-  //   if(radioButtonSet.includes(hash)){
-  //     this.setState({
-  //       radioButtons: radioButtonSet
-  //     })
-  //   } else {
-  //     this.setState({
-  //       radioButtons: radioButtonSet.concat({value: item, key: hash})
-  //     })
-  //   }
-  // }
-
-  combineValuesPerHash = (arr, hash, item) => {
-    let valArr = [], emptyValArr, cbValues = [];
-    for(let i = 0; i < arr.length; i++) {
-      if(arr[i]['hashKey'] === hash){
-        console.log('hash Same: ', hash);
-       valArr = valArr.concat(item);
-       cbValues = cbValues.concat({value: valArr, hashKey: hash});
-       return cbValues;
+    arr.map((x) => {
+      var index = temparray.indexOf(x.hashKey);
+      if (index === -1){
+      temparray.push(x.hashKey);
+      newarray.push({ hash: x.hashKey, value: [x.value] });
       } else {
-        emptyValArr = Array.from(item);
-        cbValues = cbValues.concat({value: emptyValArr, hashKey: hash});
-        return cbValues;
-      }
+      newarray[index].value.push(x.value);
     }
-   };
+     
+    });
 
+    return newarray;
+  }
+
+
+
+   //remove checkboxesfinal 9/23
   addCheckboxToSelectedArray = (item, hash) => {
     return new Promise((res, rej) => {
       try{
         let checkboxes = this.state.selectedCheckboxes;
-        let checkboxesFinal = this.state.selectedCheckboxesFinal;
-        //checkboxes = checkboxes.filter(box => box[value] !== checkboxes[value]);
-        // if(checkboxes[value] = item){
-        // if(checkboxes.includes(item)){
         if(checkboxes.some(e => e.value === item)){
-         //let valArr;
-          //  let indexof = checkboxes.indexOf(item);
            const findIndexOf = function(arr, val){
              for(let i = 0; i < arr.length; i++) {
                if(arr[i]['value'] === val){
                  return i;
                }
-               
-              //  return 1;
+
              }
            };
-           const findIndexOfFinal = function(arr, val){
-             for(let i = 0; i < arr.length; i++) {
-              for(let j = 0; j < arr[i]['value'].length; j++) {
-               if(arr[i]['value'][j] === val){
-                 return j;
-               }
-              }
-              //  return 1;
-             }
-           };
+
            let indexOf = findIndexOf(checkboxes, item);
-           let indexOfFinal = findIndexOfFinal(checkboxesFinal, item);
+      
            console.log('item index: ', indexOf);
             let removedCheckboxes = checkboxes.splice(indexOf, 1);
-            let removedcheckboxesFinal = checkboxesFinal.splice(indexOfFinal, 1);
+    
            this.setState({
-             //for ajax
-            selectedCheckboxesFinal: checkboxesFinal,
-            //for UI
              selectedCheckboxes: checkboxes
            })
          } else {          
-          let valueArr = this.combineValuesPerHash(checkboxesFinal, hash, item);
+
           this.setState({
-            //for ajax
-            selectedCheckboxesFinal: checkboxesFinal.concat(valueArr),
-            //for ui
             selectedCheckboxes: checkboxes.concat({value: item, hashKey: hash})
           })
         }
@@ -333,7 +352,9 @@ class App extends Component {
       case 'introsection':
         return <IntroScreen 
                   handleSwitchSection={this.handleSwitchSection} 
-                  activeSection={this.state.activeSection} />
+                  activeSection={this.state.activeSection}
+                  isLoading={this.isLoading}
+                  notLoading={this.notLoading} />
       break;
       case 'basicinfosection':
         return <BasicInfo 
@@ -344,6 +365,8 @@ class App extends Component {
                   lastname={this.state.lastname} 
                   phone={this.state.phone} 
                   email={this.state.email} 
+                  isLoading={this.isLoading}
+                  notLoading={this.notLoading}
                   />
       break;
       case 'extrainfosection':
@@ -357,7 +380,9 @@ class App extends Component {
                   submitform = {this.submitform} 
                   addCheckboxToSelectedArray = {this.addCheckboxToSelectedArray}
                   phone = {this.state.phone}
-                  formAnswers = {this.formAnswers} />
+                  formAnswers = {this.formAnswers}
+                  isLoading={this.isLoading}
+                  notLoading={this.notLoading} />
       break;
     }
   }
@@ -369,7 +394,7 @@ class App extends Component {
       <React.Fragment>
         <Layout>
           <Header />
-          {this.renderSectionOnState()}
+          {this.state.loading ? <LoadingSpinner /> : this.renderSectionOnState()}
         </Layout>
       </React.Fragment>
     );
