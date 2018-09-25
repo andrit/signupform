@@ -40,7 +40,7 @@ class App extends Component {
   prod_url = "https://apps.pcrichard.com/superphone/";
 
   componentDidMount() {
-    
+    const apiurl= 'https://superphone.io/f/' + this.props.formHash;
   }
 
   updateFieldValue = (stateprop, value) => {
