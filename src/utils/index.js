@@ -24,12 +24,7 @@ export const transformArrayToObject = (arr) => {
 }
 
 export const transformAnswerForDataTransport = (answers) => {
-    let n =1;
     return answers.map(answer => {
-        n++;
-        // return key.n : answer.key,
-        //         type.n : answer.fieldType,
-        //          value.n : answer.inputState
         return {
                 key : answer.hashKey,
                 type : answer.fieldType,
@@ -53,19 +48,16 @@ export const transformAnswerForDataTransport = (answers) => {
     }
 
     const walker = (child, path = []) => {
-      console.log(child);
 
       return Object.assign({}, ...Object.keys(child).map(key => {
         
         if(isValidObject(child[key])){
-          console.log('key1: ', path);
           return walker(child[key], path.concat([key]).reverse())
         }else{
-          console.log('key2: ', path);
           let upPathArr = [];
           let upPath = (Number(path[0]) +1);
           upPath = upPathArr.concat(upPath);
-          console.log('uppath: ', upPath);
+
           return { [upPath.concat([key]).reverse().join(separator)] : child[key] }
         }
       }
