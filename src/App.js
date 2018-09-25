@@ -3,6 +3,7 @@ import Layout from './Layout';
 import IntroScreen from './presentational/introscreen';
 import BasicInfo from './presentational/basicinfo';
 import ExtraInfo from './presentational/extrainfo';
+import ThankYou from './presentational/thankyou';
 import Header from './presentational/header';
 import LoadingSpinner from './utils/LoadingSpinner';
 
@@ -255,7 +256,8 @@ class App extends Component {
                const response = res;
                console.log(response);
                //show them a thank you page
-               //this.props.handleSwitchSection('thankyousection');
+               this.notLoading();
+               this.props.handleSwitchSection('thankyou');
            }
            ).catch((res) => {
                if(res instanceof Error) {
@@ -393,6 +395,9 @@ class App extends Component {
                   isLoading={this.isLoading}
                   notLoading={this.notLoading} />
       break;
+      case 'thankyou':
+        return <ThankYou firstName={this.state.firstname} lastName={this.state.lastname} />
+        break;
     }
   }
 

@@ -1,0 +1,13 @@
+.thank-you-view{
+    padding: 20px 5px;
+}
+.thank-you-view h1, .thank-you-view p{
+    text-align: center;
+}
+
+.thank-you-view h1{
+    font-size: 2em;
+}
+.thank-you-view p{
+    font-size: 1.75em;
+}
