@@ -145,7 +145,7 @@ class App extends Component {
                console.log(response);
                //show them a thank you page
                this.notLoading();
-               this.props.handleSwitchSection('thankyou');
+               this.handleSwitchSection('thankyou');
            }
            ).catch((res) => {
                if(res instanceof Error) {

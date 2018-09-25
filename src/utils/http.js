@@ -26,10 +26,11 @@ export const fetchPostDataPreserve = (url = '', data = {}, fetchmethod = 'POST',
                             let pArr = obj[p].map(a =>`"${a}"`);
                             v = `[${pArr}]`;
                         } else{
-                            if(obj[p] === 'phone'){
-                                v = obj[p];
-                            }
-                            v = `"${obj[p]}"`;
+                            // if(k === 'phone'){
+                            //     v = obj[p];
+                            // }
+                            // v = `"${obj[p]}"`;
+                            v = obj[p];
                         }
 
                        str.push(esc(k) + "=" + esc(v));
