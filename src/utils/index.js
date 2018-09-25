@@ -8,7 +8,6 @@ export const getUrlVars = () => {
 };
 
 // callnum pattern should be /?callnum=067-0423104-001-008-EFMG617STT-001-002
-
 //var callnum = getUrlVars()['callnum'] !== undefined && getUrlVars()['callnum'] !== '' ? getUrlVars()['callnum'] : null;
 
 export const transformArrayToObject = (arr) => {
@@ -18,9 +17,7 @@ export const transformArrayToObject = (arr) => {
             obj[i] = arr[i];
         }
     }
-  
-    return obj;
-    
+    return obj;   
 }
 
 export const transformAnswerForDataTransport = (answers) => {
@@ -43,7 +40,6 @@ export const transformAnswerForDataTransport = (answers) => {
       const isArray  = Array.isArray(value);
       const isObject = Object.prototype.toString.call(value) === '[object Object]';
       const hasKeys  = !!Object.keys(value).length;
-  
       return !isArray && isObject && hasKeys
     }
 

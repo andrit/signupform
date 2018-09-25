@@ -10,8 +10,6 @@ import './basicinfo.css';
     state={
         phoneInvalid: false,
         emailInvalid: false,
-        // phoneIsFocused: false,
-        // emailIsFocused: false
     }
     static propTypes = {
         activeSection: PropTypes.string,
@@ -22,28 +20,6 @@ import './basicinfo.css';
 
     dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
     prod_url = "https://apps.pcrichard.com/superphone/";
-
-    // toggleInputFocus = (e) => {
-    //     let fieldName =  e.target.name;
-    //     let forFocus = e.target.name + 'IsFocused';
-    //     if(fieldName === 'phone'){
-    //         this.setState({
-    //             phoneIsFocused: true,
-    //             emailIsFocused: false
-    //         })
-    //     } else if(fieldName === 'email'){
-    //         this.setState({
-    //             emailIsFocused: true,
-    //             phoneIsFocused: false
-    //         })
-    //     } else {
-    //         this.setState({
-    //             emailIsFocused: false,
-    //             phoneIsFocused: false
-    //         })
-    //     }
-        
-    // }
 
     handleUpdateFieldValue = (e) => {
         let fieldName =  e.target.name; 
@@ -77,23 +53,6 @@ import './basicinfo.css';
         this.props.updateFieldValue(fieldName, fieldValue);
     };
 
-
-    // postData = (url = '', data = {}, fetchmethod = 'POST', fetchmode) => {
-    //     const esc = encodeURIComponent;
-    //     var query = Object.keys(data)
-    //                 .map(k => esc(k)+ '=' + esc(data[k]))
-    //                 .join('&');
-    //     return fetch(url, {
-    //         method: fetchmethod, // *GET, POST, PUT, DELETE, etc.
-    //         mode: fetchmode, // no-cors, cors, *same-origin
-    //         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    //         credentials: "same-origin", // include, same-origin, *omit
-    //         headers: {
-    //             "Content-Type": "application/x-www-form-urlencoded",
-    //         },
-    //         body: query
-    //     })
-    // }
     
     handleSubmit = (e) => {
         e.preventDefault();
@@ -101,7 +60,7 @@ import './basicinfo.css';
         //this.setState({ loading: true }, () => {
             fetchPostDataEncode(this.dev_url, {
                 action : "basic",
-                hash : "NZAYCyzl",
+                hash : this.props.formHash || "NZAYCyzl",
                 phone : this.props.phone,
                 firstName : this.props.firstname,
                 lastName : this.props.lastname,
@@ -110,7 +69,7 @@ import './basicinfo.css';
             )
             .then(res => {
                 const response = res;
-                this.props.notLoading();
+                // this.props.notLoading();
                 this.props.handleSwitchSection('extrainfosection');
             }
             ).catch((res) => {
@@ -120,7 +79,7 @@ import './basicinfo.css';
                     console.log(res.data);
                   }
                 //console.log(error);
-                this.props.handleSwitchSection('extrainfosection');
+                //this.props.handleSwitchSection('extrainfosection');
             })
        // });
     }

@@ -26,10 +26,6 @@ export const fetchPostDataPreserve = (url = '', data = {}, fetchmethod = 'POST',
                             let pArr = obj[p].map(a =>`"${a}"`);
                             v = `[${pArr}]`;
                         } else{
-                            // if(k === 'phone'){
-                            //     v = obj[p];
-                            // }
-                            // v = `"${obj[p]}"`;
                             v = obj[p];
                         }
 
@@ -39,7 +35,6 @@ export const fetchPostDataPreserve = (url = '', data = {}, fetchmethod = 'POST',
                     return str.join("&");
                 };
     query = query(data);
-                console.log('fetch query body: ', query);
     return fetch(url, {
         method: fetchmethod, // *GET, POST, PUT, DELETE, etc.
         mode: fetchmode, // no-cors, cors, *same-origin

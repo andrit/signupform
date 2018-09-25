@@ -53,8 +53,8 @@ class ExtraInfo extends Component{
 
     componentDidMount() {
        // superphone APi
-    //    const apiurl= 'https://superphone.io/f/' + this.props.formHash ;
-       const apiurl= 'https://superphone.io/f/NZAYCyzl';
+    const apiurl= 'https://superphone.io/f/' + this.props.formHash;
+       //const apiurl= 'https://superphone.io/f/NZAYCyzl';
        fetchGetData(apiurl)
         .then(res => {
            
@@ -90,136 +90,12 @@ class ExtraInfo extends Component{
         })
     }
     
-    // transformAnswerForDataTransport = (answers) => {
-    //     let n =1;
-    //     return answers.map(answer => {
-    //         n++;
-    //         // return key.n : answer.key,
-    //         //         type.n : answer.fieldType,
-    //         //          value.n : answer.inputState
-    //         return {
-    //                 key : answer.hashKey,
-    //                 type : answer.fieldType,
-    //                 value : answer.inputState
-    //                 }
-    //     })
-    // }
-
-    // transformArrayToObject = (arr) => {
-    //     let obj = {};
-    //     for(let i = 0; i < arr.length; ++i){
-    //         if(arr[i] !== undefined){
-    //             obj[i] = arr[i];
-    //         }
-    //     }
-    //     return obj;
-    // }
-
-    // handleInitialFormSave = () => {
-    //     return new Promise((res, rej) => {
-    //         try{
-    //             this.props.handleExtraInfoFormSubmit()
-    //             res();
-    //         }
-    //         catch(e){
-    //             rej(e)
-    //         }
-    //     })
-    // }
-
-    // handleSubmit = (e) => {
-    //     e.preventDefault();
-    //      this.handleInitialFormSave()
-    //      .then(() => {
-    //          let ExtraAnswers = this.props.formAnswers;
-    //         console.log('extraanswers in extrainfo: '. ExtraAnswers);
-    //         //turn extraanswers into correct format
-    //        let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
-    //        // let AnswersObject = this.transformArrayToObject(AnswersArray);
-    //        console.log('array: '. AnswersArray);
-    //        // console.log('object: '. AnswersObject);
-    //         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
-    //        fetchPostData(this.dev_url, {
-    //            action : "advanced",
-    //            hash : "NZAYCyzl",
-    //            phone : this.props.phone,
-    //            birthday: birthday,
-    //            key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
-    //            type1 : 'radio',
-    //            value1 : 'NO',
-   
-    //            key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
-    //            type2 : 'checkbox',
-    //            value2 : '%5B%22GE%22%2C+%22LG%22%5D',
-   
-    //            key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
-    //            type3 : 'checkbox',
-    //            value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
-    //            }, 'POST', 'cors')
-    //            .then(res => {
-    //                const response = res;
-    //                //show them a thank you page
-    //                //this.props.handleSwitchSection('extrainfosection');
-    //            }
-    //            ).catch((res) => {
-    //                if(res instanceof Error) {
-    //                    console.log(res.message);
-    //                  } else {
-    //                    console.log(res.data);
-    //                  }
-                   
-    //            })
-    //      })
-       
-    // }
     handleSubmit = (e) => {
         e.preventDefault();
         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
         this.props.isLoading(); 
-        this.props.submitform(birthday);
-         //setTimeout(this.formFetch, 0);        
+        this.props.submitform(birthday);       
     }
-
-    // formFetch = () => {
-    //     let ExtraAnswers = this.props.formAnswers;
-    //         console.log('extraanswers in extrainfo: '. ExtraAnswers);
-    //         //turn extraanswers into correct format
-    //        let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
-    //        // let AnswersObject = this.transformArrayToObject(AnswersArray);
-    //        console.log('array: '. AnswersArray);
-    //        // console.log('object: '. AnswersObject);
-    //         let birthday = `${this.state.birthYear}-${this.state.birthMonth}-${this.state.birthDay}`;
-    //        fetchPostData(this.dev_url, {
-    //            action : "advanced",
-    //            hash : "NZAYCyzl",
-    //            phone : this.props.phone,
-    //            birthday: birthday,
-    //            key1 : 'c5efbe2851797b79409ba18378ea724fa9662504',
-    //            type1 : 'radio',
-    //            value1 : 'NO',
-   
-    //            key2 : '5bdbeca67ac99d2e1389e154044585f8f8639bf5',
-    //            type2 : 'checkbox',
-    //            value2 : '%5B%22GE%22%2C+%22LG%22%5D',
-   
-    //            key3 : 'b73e88a0833a35e41f2c2d53698422dece12abf4',
-    //            type3 : 'checkbox',
-    //            value3 : '%5B%22TVS+AND+ELECTRONICS%22%5D'
-    //            }, 'POST', 'cors')
-    //            .then(res => {
-    //                const response = res;
-    //                //show them a thank you page
-    //                //this.props.handleSwitchSection('extrainfosection');
-    //            }
-    //            ).catch((res) => {
-    //                if(res instanceof Error) {
-    //                    console.log(res.message);
-    //                  } else {
-    //                    console.log(res.data);
-    //                  }
-                   
-    //            })
-    // }
 
 
 

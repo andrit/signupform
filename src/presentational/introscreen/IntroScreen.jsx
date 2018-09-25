@@ -24,23 +24,24 @@ class IntroScreen extends Component{
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.isLoading();
-        const acceptTexts= '';
-        axios.post(acceptTexts)
-            .then(res => {
-                const response = res;
-                this.props.handleSwitchSection('basicinfosection');
+        this.props.handleSwitchSection('basicinfosection');
+        // const acceptTexts= '';
+        // axios.post(acceptTexts)
+        //     .then(res => {
+        //         const response = res;
+        //         this.props.handleSwitchSection('basicinfosection');
                 
-            }
-            )
-            .then( () => { this.props.notLoading(); this.setState({ textsAccepted: true}) })
-            .catch((error) => {
-                console.log(error);
-                this.props.notLoading();
-                //remove these when we have an ajax route that works
-                this.props.handleSwitchSection('basicinfosection');
-                this.setState({ textsAccepted: true}) 
+        //     }
+        //     )
+        //     .then( () => { this.props.notLoading(); this.setState({ textsAccepted: true}) })
+        //     .catch((error) => {
+        //         console.log(error);
+        //         this.props.notLoading();
+        //         //remove these when we have an ajax route that works
+        //         this.props.handleSwitchSection('basicinfosection');
+        //         this.setState({ textsAccepted: true}) 
                 
-            })
+        //     })
     }
     render(){
         return( 
@@ -51,16 +52,10 @@ class IntroScreen extends Component{
                                 : "notactive form-section text-center"}>
                 
                     <div className="img-container">
-                        {/* <FetchSalesPerson>
-                        {({salesperson}) => salesperson 
-                            ? ( <img className="profile-image" src={salesperson.imgUrl} alt={salesperson.name} /> )
-                            : ( <i className="fa fa-user-circle"></i> )
-                        }</FetchSalesPerson> */}
                         <i className="fa fa-user-circle fa-5x"></i>
                     </div>
                     
-                    <div className="intro-salesperson">
-                        
+                    <div className="intro-salesperson">            
                         {this.props.salesmanName 
                             ? ( <h1>Hey, It's {this.props.salesmanName }</h1> )
                             : ( <h1> Hey, It's PC Richard &amp; Son</h1> )

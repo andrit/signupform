@@ -24,16 +24,12 @@ class App extends Component {
     formHash: '',
     firstname: '',
     lastname: '',
-    phone: '',
+    phone: this.props.custPhone,
     email: '',
     radioAnswers: [],
-    // selectedLikes:[],
-    // selectedCategories:[],
     selectedCheckboxes:[],
     selectedCheckboxesFinal:[],
-    // radioButtons: [],
     havePcrAcct: '',
-    // custBday:'',
     formAnswers:[],
     loading: false
   }
@@ -46,13 +42,31 @@ class App extends Component {
   componentDidMount() {
     
   }
-  
 
-
-  isLoading = () => {
+  updateFieldValue = (stateprop, value) => {
     this.setState({
-      loading: true
-    })
+      [stateprop]: value
+    });
+  };
+  // isLoading = () => {
+  //   return new Promise((res, rej){
+  //     try{
+  //       this.setState({
+  //         loading: true
+  //       })
+  //       res();
+  //     }
+  //     catch(e){
+  //       rej(e);
+  //     }
+  //   })
+    
+  // }
+  isLoading = () => {
+        this.setState({
+          loading: true
+        })
+    
   }
 
   notLoading = () => {
@@ -61,25 +75,21 @@ class App extends Component {
     })
   }
 
-  updateFieldValue = (stateprop, value) => {
-    this.setState({
-      [stateprop]: value
-    });
-};
-  
-
   handleSwitchSection = (section) => {
-    let switchSectionState = new Promise((resolve, reject) => {
+    const switchSectionState = () => new Promise((res, rej) => {
       try {
         console.log('in submit try');
         this.setState({
           activeSection: section
         })
+        res();
       }
       catch(e) {
-        reject(e)
+        rej(e);
       }
     });
+
+    return switchSectionState().then(() => this.notLoading());
 
   }
 
@@ -114,7 +124,6 @@ class App extends Component {
       this.setState({
         formAnswers: AnswersObject
       })
-      // this.formAnswers = ExtraAnswers;
       res();
      }
      catch(e){
@@ -134,7 +143,7 @@ class App extends Component {
        let flatObj = flattenObject(answers);
 
        const submitObj = Object.assign({action : "advanced",
-                                        hash : "NZAYCyzl",
+                                        hash : this.props.formHash || "NZAYCyzl",
                                         phone : this.state.phone,
                                         birthday: birthday}, flatObj);
        console.log(submitObj);
@@ -144,7 +153,7 @@ class App extends Component {
                const response = res;
                console.log(response);
                //show them a thank you page
-               this.notLoading();
+               //this.notLoading();
                this.handleSwitchSection('thankyou');
            }
            ).catch((res) => {
@@ -249,6 +258,7 @@ class App extends Component {
                   email={this.state.email} 
                   isLoading={this.isLoading}
                   notLoading={this.notLoading}
+                  formHash={this.props.formHash}
                   />
       break;
       case 'extrainfosection':
@@ -261,7 +271,8 @@ class App extends Component {
                   phone = {this.state.phone}
                   formAnswers = {this.formAnswers}
                   isLoading={this.isLoading}
-                  notLoading={this.notLoading} />
+                  notLoading={this.notLoading}
+                  formHash={this.props.formHash} />
       break;
       case 'thankyou':
         return <ThankYou firstName={this.state.firstname} lastName={this.state.lastname} />
