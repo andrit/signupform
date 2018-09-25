@@ -40,9 +40,6 @@ class App extends Component {
   dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
   prod_url = "https://apps.pcrichard.com/superphone/";
 
-  componentDidMount() {
-    const urlParms = new URLSearchParams(window.location.search);
-  }
 
   isLoading = () => {
     this.setState({
@@ -62,15 +59,6 @@ class App extends Component {
     });
 };
   
-  // doScrollTo = (element) => {
-  //   const elRef = document.getElementById(element);
-  //   window.scrollTo({
-  //       left: 0, 
-  //       top: elRef.offsetTop -80,
-  //       behavior: "smooth"
-  //   })
-  // }
-
 
   handleSwitchSection = (section) => {
     let switchSectionState = new Promise((resolve, reject) => {
@@ -85,13 +73,6 @@ class App extends Component {
       }
     });
 
-    // switchSectionState.then(
-    //   enableScroll()
-    // )
-    // .then(
-    //   this.doScrollTo(section)
-    // );   
-    // return switchSectionState();   
   }
 
 
@@ -110,7 +91,7 @@ class App extends Component {
       let cba = this.createApiCheckboxArray(this.state.selectedCheckboxes);
       console.log('cba: ', cba);
       let checkboxAnswers = cba.map(box => {
-        //if(box.hashKey )
+
         return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hash })
       });
       console.log(checkboxAnswers);
@@ -118,10 +99,7 @@ class App extends Component {
       let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
      
       console.log(ExtraAnswers);
-        //turn extraanswers into correct format
-        // let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
-        // // let AnswersObject = this.transformArrayToObject(AnswersArray);
-        // console.log('array: '. AnswersArray);
+
 
         let AnswersObject = this.transformArrayToObject(this.transformAnswerForDataTransport(ExtraAnswers));
         console.log('answers object: '. AnswersObject);
@@ -178,8 +156,11 @@ class App extends Component {
   
       return !isArray && isObject && hasKeys
     }
+    // const walkercb = (child) => {
+      
+    // }
   
-    //path has the index value...can we add 1 to each
+    //path has the index value...can we add 1 to each?
     const walker = (child, path = []) => {
       console.log(child);
       //let pathVal = parseInt(path[]);
@@ -187,11 +168,15 @@ class App extends Component {
       return Object.assign({}, ...Object.keys(child).map(key => {
         
         if(isValidObject(child[key])){
-          console.log('key1: ', child[key]);
+          console.log('key1: ', path);
           return walker(child[key], path.concat([key]).reverse())
         }else{
-          console.log('key2: ', child[key]);
-          return { [path.concat([key]).reverse().join(separator)] : child[key] }
+          console.log('key2: ', path);
+          let upPathArr = [];
+          let upPath = (Number(path[0]) +1);
+          upPath = upPathArr.concat(upPath);
+          console.log('uppath: ', upPath);
+          return { [upPath.concat([key]).reverse().join(separator)] : child[key] }
         }
       }
       ))};
