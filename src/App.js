@@ -138,15 +138,6 @@ class App extends Component {
                                         phone : this.state.phone,
                                         birthday: birthday}, flatObj);
        console.log(submitObj);
-
-       
-        // let ExtraAnswers = this.state.formAnswers;
-        // console.log('extraanswers in extrainfo: '. ExtraAnswers);
-        // //turn extraanswers into correct format
-        // let AnswersArray = this.transformAnswerForDataTransport(ExtraAnswers);
-        // // let AnswersObject = this.transformArrayToObject(AnswersArray);
-        // console.log('array: '. AnswersArray);
-        // console.log('object: '. AnswersObject);
        
         fetchPostDataPreserve(this.dev_url, submitObj, 'POST', 'cors')
            .then(res => {
@@ -168,16 +159,7 @@ class App extends Component {
    
 }
 
- 
-  //stillneed this?
-  handleAddCheckbox = () => {
-    console.log('in app add checkbox hangler');
-    let checkboxes = this.state.selectedCheckboxes;
-       this.handleFormAnswersUpdate(checkboxes.value, 'checkbox', checkboxes.key);    
-  }
 
-
-  //NEW! 9/23 pass in this.state.formAnswers
   createApiCheckboxArray = (arr) => {
     let temparray = [];
     let newarray = [];
@@ -185,11 +167,11 @@ class App extends Component {
     arr.map((x) => {
       var index = temparray.indexOf(x.hashKey);
       if (index === -1){
-      temparray.push(x.hashKey);
-      newarray.push({ hash: x.hashKey, value: [x.value] });
+        temparray.push(x.hashKey);
+        newarray.push({ hash: x.hashKey, value: [x.value] });
       } else {
-      newarray[index].value.push(x.value);
-    }
+        newarray[index].value.push(x.value);
+      }
      
     });
 
@@ -197,8 +179,6 @@ class App extends Component {
   }
 
 
-
-   //remove checkboxesfinal 9/23
   addCheckboxToSelectedArray = (item, hash) => {
     return new Promise((res, rej) => {
       try{
@@ -209,20 +189,14 @@ class App extends Component {
                if(arr[i]['value'] === val){
                  return i;
                }
-
              }
            };
-
            let indexOf = findIndexOf(checkboxes, item);
-      
-           console.log('item index: ', indexOf);
             let removedCheckboxes = checkboxes.splice(indexOf, 1);
-    
            this.setState({
              selectedCheckboxes: checkboxes
            })
          } else {          
-
           this.setState({
             selectedCheckboxes: checkboxes.concat({value: item, hashKey: hash})
           })
@@ -239,7 +213,6 @@ class App extends Component {
     let inputState = val;
     let fieldType = type;
     let hashKey = hash;
-    // if(this.state.formAnswers.inputState !== inputState){
       if(Array.isArray(val)){
         val.forEach(v => {
           this.setState(prevState => ({
@@ -259,6 +232,7 @@ class App extends Component {
      switch(this.state.activeSection){
       case 'introsection':
         return <IntroScreen 
+                  salesmanName={this.props.salesman}
                   handleSwitchSection={this.handleSwitchSection} 
                   activeSection={this.state.activeSection}
                   isLoading={this.isLoading}
@@ -280,11 +254,8 @@ class App extends Component {
       case 'extrainfosection':
         return <ExtraInfo
                   activeSection={this.state.activeSection}
-                  handleAddCheckbox={this.handleAddCheckbox}
-                  // addRadioToResultsArray={this.addRadioToResultsArray}
                   handleRadioAnswersUpdate={this.handleRadioAnswersUpdate}
                   selectedCheckboxes={this.state.selectedCheckboxes}
-                  // handleExtraInfoFormSubmit={this.handleExtraInfoFormSubmit}
                   submitform = {this.submitform} 
                   addCheckboxToSelectedArray = {this.addCheckboxToSelectedArray}
                   phone = {this.state.phone}

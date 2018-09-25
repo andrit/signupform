@@ -16,18 +16,29 @@ export const fetchPostDataEncode = (url = '', data = {}, fetchmethod = 'POST', f
 };
 export const fetchPostDataPreserve = (url = '', data = {}, fetchmethod = 'POST', fetchmode='cors') => {
     const esc = encodeURIComponent;
-    var query = Object.keys(data)
-                .map(k =>{
-                    let key = k.replace(/"/g, "&quot;");
-                    let val = data[k];
-                    let isArray  = Array.isArray(val);
-                    if(!isArray){
-                        val = val.replace(/"/g, "&quot;");
+    let query = (obj) => {
+                    let str = [],
+                    p;
+                    for (p in obj) {
+                    if (obj.hasOwnProperty(p)) {
+                        let k = p, v;
+                        if (Array.isArray(obj[p])){
+                            let pArr = obj[p].map(a =>`"${a}"`);
+                            v = `[${pArr}]`;
+                        } else{
+                            if(obj[p] === 'phone'){
+                                v = obj[p];
+                            }
+                            v = `"${obj[p]}"`;
+                        }
+
+                       str.push(esc(k) + "=" + esc(v));
                     }
-                    // val = val.replace(/"/g, "&quot;").replace(/\[/g, "&lbrack;").replace(/]/g, "&rbrack;");
-                    return esc(key) + '=' + esc(val);
-                })
-                .join('&');
+                    }
+                    return str.join("&");
+                };
+    query = query(data);
+                console.log('fetch query body: ', query);
     return fetch(url, {
         method: fetchmethod, // *GET, POST, PUT, DELETE, etc.
         mode: fetchmode, // no-cors, cors, *same-origin

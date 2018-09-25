@@ -51,19 +51,20 @@ class IntroScreen extends Component{
                                 : "notactive form-section text-center"}>
                 
                     <div className="img-container">
-                        <FetchSalesPerson>
+                        {/* <FetchSalesPerson>
                         {({salesperson}) => salesperson 
                             ? ( <img className="profile-image" src={salesperson.imgUrl} alt={salesperson.name} /> )
                             : ( <i className="fa fa-user-circle"></i> )
-                        }</FetchSalesPerson>
+                        }</FetchSalesPerson> */}
+                        <i className="fa fa-user-circle fa-5x"></i>
                     </div>
                     
                     <div className="intro-salesperson">
-                        <FetchSalesPerson>
-                        {({salesperson}) => salesperson 
-                            ? ( <h1>Hey, It's {salesperson.name}</h1> )
+                        
+                        {this.props.salesmanName 
+                            ? ( <h1>Hey, It's {this.props.salesmanName }</h1> )
                             : ( <h1> Hey, It's PC Richard &amp; Son</h1> )
-                        }</FetchSalesPerson>
+                        }
                     </div>
                
                 <div className="purpose-statement">

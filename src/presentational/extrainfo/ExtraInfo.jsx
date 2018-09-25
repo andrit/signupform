@@ -269,15 +269,6 @@ class ExtraInfo extends Component{
     }
 
 
-     //way with dyn programming in app and selectedChecboxes state here   
-    // handleCheckboxClick = (boxvalue) => {
-    //    //let value = boxvalue;
-    //    this.addCheckboxToSelectedArray(boxvalue)
-    //   .then((value) => {
-    //     console.log('checkbox clicked extrainfo');
-    //       return this.props.handleAddCheckbox(this.state.selectedCheckboxes);
-    //   });
-    // }
     //checkbox click handler
     handleCheckboxClick = (boxValue, hash) => {
         return this.props.addCheckboxToSelectedArray(boxValue, hash);

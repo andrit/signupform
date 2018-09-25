@@ -38,3 +38,21 @@ class FetchSalesPerson extends Component {
 }
 
 export default FetchSalesPerson;
+
+/**
+ *  <div className="img-container">
+                        <FetchSalesPerson>
+                        {({salesperson}) => salesperson 
+                            ? ( <img className="profile-image" src={salesperson.imgUrl} alt={salesperson.name} /> )
+                            : ( <i className="fa fa-user-circle"></i> )
+                        }</FetchSalesPerson>
+                    </div>
+                    
+                    <div className="intro-salesperson">
+                        <FetchSalesPerson>
+                        {({salesperson}) => salesperson 
+                            ? ( <h1>Hey, It's {salesperson.name}</h1> )
+                            : ( <h1> Hey, It's PC Richard &amp; Son</h1> )
+                        }</FetchSalesPerson>
+                    </div>
+ */
