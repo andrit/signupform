@@ -178,13 +178,22 @@ class App extends Component {
       return !isArray && isObject && hasKeys
     }
   
+    //path has the index value...can we add 1 to each
     const walker = (child, path = []) => {
-  
-      return Object.assign({}, ...Object.keys(child).map(key => isValidObject(child[key])
-        ? walker(child[key], path.concat([key]).reverse())
-        : { [path.concat([key]).reverse().join(separator)] : child[key] })
-      )
-    }
+      console.log(child);
+      //let pathVal = parseInt(path[]);
+      //++pathVal;
+      return Object.assign({}, ...Object.keys(child).map(key => {
+        
+        if(isValidObject(child[key])){
+          console.log('key1: ', child[key]);
+          return walker(child[key], path.concat([key]).reverse())
+        }else{
+          console.log('key2: ', child[key]);
+          return { [path.concat([key]).reverse().join(separator)] : child[key] }
+        }
+      }
+      ))};
   
     return Object.assign({}, walker(object))
   };
@@ -217,19 +226,19 @@ class App extends Component {
        const birthday = bday; 
 
        let flatObj = this.flattenObject(answers);
-       let answerObj = this.updateObjFromZeroIndex(flatObj, function(key, val){
-        let numKey = key.slice(-1);  
-        let sumKey = parseInt(numKey) +1;
-        let wordKey = key.slice(0, -1);
-        let updatedKey = wordKey + sumKey;
-        console.log(updatedKey); 
-        return  updatedKey;
-       });
+      //  let answerObj = this.updateObjFromZeroIndex(flatObj, function(key, val){
+      //     let numKey = key.slice(-1);  
+      //     let sumKey = parseInt(numKey) +1;
+      //     let wordKey = key.slice(0, -1);
+      //     let updatedKey = wordKey + sumKey;
+      //     console.log(updatedKey); 
+      //     return  updatedKey;
+      //  });
 
        const submitObj = Object.assign({action : "advanced",
                                         hash : "NZAYCyzl",
                                         phone : this.state.phone,
-                                        birthday: birthday}, answerObj);
+                                        birthday: birthday}, flatObj);
        console.log(submitObj);
 
        
