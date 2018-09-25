@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {fetchPostData} from '../../utils/http';
+import {fetchPostDataEncode} from '../../utils/http';
 import {TransitionAnimation} from '../../utils/TransitionAnimation';
 import PropTypes from "prop-types";
 
@@ -99,7 +99,7 @@ import './basicinfo.css';
         e.preventDefault();
         this.props.isLoading();
         //this.setState({ loading: true }, () => {
-            fetchPostData(this.dev_url, {
+            fetchPostDataEncode(this.dev_url, {
                 action : "basic",
                 hash : "NZAYCyzl",
                 phone : this.props.phone,

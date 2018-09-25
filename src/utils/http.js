@@ -1,7 +1,32 @@
-export const fetchPostData = (url = '', data = {}, fetchmethod = 'POST', fetchmode='cors') => {
+export const fetchPostDataEncode = (url = '', data = {}, fetchmethod = 'POST', fetchmode='cors') => {
     const esc = encodeURIComponent;
     var query = Object.keys(data)
                 .map(k => esc(k)+ '=' + esc(data[k]))
+                .join('&');
+    return fetch(url, {
+        method: fetchmethod, // *GET, POST, PUT, DELETE, etc.
+        mode: fetchmode, // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, same-origin, *omit
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: query
+    });
+};
+export const fetchPostDataPreserve = (url = '', data = {}, fetchmethod = 'POST', fetchmode='cors') => {
+    const esc = encodeURIComponent;
+    var query = Object.keys(data)
+                .map(k =>{
+                    let key = k.replace(/"/g, "&quot;");
+                    let val = data[k];
+                    let isArray  = Array.isArray(val);
+                    if(!isArray){
+                        val = val.replace(/"/g, "&quot;");
+                    }
+                    // val = val.replace(/"/g, "&quot;").replace(/\[/g, "&lbrack;").replace(/]/g, "&rbrack;");
+                    return esc(key) + '=' + esc(val);
+                })
                 .join('&');
     return fetch(url, {
         method: fetchmethod, // *GET, POST, PUT, DELETE, etc.

@@ -6,8 +6,9 @@ import ExtraInfo from './presentational/extrainfo';
 import ThankYou from './presentational/thankyou';
 import Header from './presentational/header';
 import LoadingSpinner from './utils/LoadingSpinner';
+import {flattenObject, transformAnswerForDataTransport, transformArrayToObject, getUrlVars} from './utils';
 
-import {fetchPostData} from './utils/http';
+import {fetchPostDataPreserve} from './utils/http';
 
 // import {disableScroll, enableScroll} from './utils/handlescroll';
 
@@ -19,6 +20,8 @@ class App extends Component {
 
   state={
     activeSection: 'introsection',
+    salesPersonName: '',
+    formHash: '',
     firstname: '',
     lastname: '',
     phone: '',
@@ -39,6 +42,11 @@ class App extends Component {
 
   dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
   prod_url = "https://apps.pcrichard.com/superphone/";
+
+  componentDidMount() {
+    
+  }
+  
 
 
   isLoading = () => {
@@ -101,7 +109,7 @@ class App extends Component {
       console.log(ExtraAnswers);
 
 
-        let AnswersObject = this.transformArrayToObject(this.transformAnswerForDataTransport(ExtraAnswers));
+        let AnswersObject = transformArrayToObject(transformAnswerForDataTransport(ExtraAnswers));
         console.log('answers object: '. AnswersObject);
       this.setState({
         formAnswers: AnswersObject
@@ -116,94 +124,6 @@ class App extends Component {
     
   }
 
-  transformAnswerForDataTransport = (answers) => {
-    let n =1;
-    return answers.map(answer => {
-        n++;
-        // return key.n : answer.key,
-        //         type.n : answer.fieldType,
-        //          value.n : answer.inputState
-        return {
-                key : answer.hashKey,
-                type : answer.fieldType,
-                value : answer.inputState
-                }
-      })
-  }
-
-  transformArrayToObject = (arr) => {
-      let obj = {};
-      for(let i = 0; i < arr.length; ++i){
-          if(arr[i] !== undefined){
-              obj[i] = arr[i];
-          }
-      }
-    
-      return obj;
-      
-  }
-
-  flattenObject = (object, separator = '') => {
-
-    const isValidObject = value => {
-      if (!value) {
-        return false
-      }
-  
-      const isArray  = Array.isArray(value);
-      const isObject = Object.prototype.toString.call(value) === '[object Object]';
-      const hasKeys  = !!Object.keys(value).length;
-  
-      return !isArray && isObject && hasKeys
-    }
-    // const walkercb = (child) => {
-      
-    // }
-  
-    //path has the index value...can we add 1 to each?
-    const walker = (child, path = []) => {
-      console.log(child);
-      //let pathVal = parseInt(path[]);
-      //++pathVal;
-      return Object.assign({}, ...Object.keys(child).map(key => {
-        
-        if(isValidObject(child[key])){
-          console.log('key1: ', path);
-          return walker(child[key], path.concat([key]).reverse())
-        }else{
-          console.log('key2: ', path);
-          let upPathArr = [];
-          let upPath = (Number(path[0]) +1);
-          upPath = upPathArr.concat(upPath);
-          console.log('uppath: ', upPath);
-          return { [upPath.concat([key]).reverse().join(separator)] : child[key] }
-        }
-      }
-      ))};
-  
-    return Object.assign({}, walker(object))
-  };
-
-
-  updateObjFromZeroIndex = (obj, fn) => {
-    const objKeys = Object.keys(obj);
-    let result;
-    
-    for (var i = 0; i < objKeys.length; i++) {
-      let key = objKeys[i]; 
-      let val = obj[key];
-      let cb = fn(key, val);
-
-      if (cb !== '') {
-        key = cb;
-      }
-      result[key] = val;
-    }
-
-      return result;
-    }
-
-
   //submit whole for
   submitform = (bday) => {
      this.handleExtraInfoFormSubmit()
@@ -211,15 +131,7 @@ class App extends Component {
        let answers = this.state.formAnswers;
        const birthday = bday; 
 
-       let flatObj = this.flattenObject(answers);
-      //  let answerObj = this.updateObjFromZeroIndex(flatObj, function(key, val){
-      //     let numKey = key.slice(-1);  
-      //     let sumKey = parseInt(numKey) +1;
-      //     let wordKey = key.slice(0, -1);
-      //     let updatedKey = wordKey + sumKey;
-      //     console.log(updatedKey); 
-      //     return  updatedKey;
-      //  });
+       let flatObj = flattenObject(answers);
 
        const submitObj = Object.assign({action : "advanced",
                                         hash : "NZAYCyzl",
@@ -236,7 +148,7 @@ class App extends Component {
         // console.log('array: '. AnswersArray);
         // console.log('object: '. AnswersObject);
        
-       fetchPostData(this.dev_url, submitObj, 'POST', 'cors')
+        fetchPostDataPreserve(this.dev_url, submitObj, 'POST', 'cors')
            .then(res => {
                const response = res;
                console.log(response);

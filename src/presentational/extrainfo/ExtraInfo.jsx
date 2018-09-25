@@ -53,6 +53,7 @@ class ExtraInfo extends Component{
 
     componentDidMount() {
        // superphone APi
+    //    const apiurl= 'https://superphone.io/f/' + this.props.formHash ;
        const apiurl= 'https://superphone.io/f/NZAYCyzl';
        fetchGetData(apiurl)
         .then(res => {
@@ -72,6 +73,7 @@ class ExtraInfo extends Component{
                 }
                 return comparison;
             }
+            console.log('api data: ', getData);
             const FormFields = getData.formFields.sort(compare);
             console.log(FormFields);
             this.setState({
