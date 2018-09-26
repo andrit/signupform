@@ -25,7 +25,8 @@ class App extends Component {
     selectedCheckboxesFinal:[],
     havePcrAcct: '',
     formAnswers:[],
-    loading: false
+    loading: false,
+    basicFormValid: 0
   }
 
 
@@ -41,6 +42,11 @@ class App extends Component {
       [stateprop]: value
     });
   };
+
+  checkBasicFormValid = (validity) =>{
+    this.setState({ basicFormValid: validity})
+  }
+  
 
   isLoading = () => {
         this.setState({
@@ -228,6 +234,8 @@ class App extends Component {
                   isLoading={this.isLoading}
                   notLoading={this.notLoading}
                   formHash={this.props.formHash}
+                  checkFormValid={this.checkBasicFormValid}
+                  basicFormValid={this.state.basicFormValid}
                   />
       break;
       case 'extrainfosection':
