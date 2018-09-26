@@ -29,14 +29,6 @@ class App extends Component {
     basicFormValid: 0
   }
 
-
-  // componentDidMount() {
-  //   if(this.props.formHash === null){
-  //     this.handleSwitchSection('error');
-  //   }
-  // }
-  
-
   updateFieldValue = (stateprop, value) => {
     this.setState({
       [stateprop]: value
@@ -78,7 +70,6 @@ class App extends Component {
     return switchSectionState().then(() => this.notLoading());
 
   }
-
 
   handleExtraInfoFormSubmit = () => {
    return new Promise((res, rej) => {
