@@ -26,7 +26,6 @@ class ExtraInfo extends Component{
         selectedCategories: PropTypes.array,
     }
     componentDidMount() {
-       // superphone APi
     const apiurl= 'https://superphone.io/f/' + this.props.formHash;
        fetchGetData(apiurl)
         .then(res => {
@@ -115,8 +114,6 @@ class ExtraInfo extends Component{
         })
     }
 
-
-    //checkbox click handler
     handleCheckboxClick = (boxValue, hash) => {
         return this.props.addCheckboxToSelectedArray(boxValue, hash);
     }

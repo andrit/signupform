@@ -11,7 +11,6 @@ import {flattenObject, transformAnswerForDataTransport, transformArrayToObject} 
 
 import {fetchPostDataPreserve} from './utils/http';
 
-
 class App extends Component {
 
   state={
@@ -28,30 +27,14 @@ class App extends Component {
     formAnswers:[],
     loading: false
   }
-  
-  // static formAnswers;
 
- 
 
   updateFieldValue = (stateprop, value) => {
     this.setState({
       [stateprop]: value
     });
   };
-  // isLoading = () => {
-  //   return new Promise((res, rej){
-  //     try{
-  //       this.setState({
-  //         loading: true
-  //       })
-  //       res();
-  //     }
-  //     catch(e){
-  //       rej(e);
-  //     }
-  //   })
-    
-  // }
+
   isLoading = () => {
         this.setState({
           loading: true

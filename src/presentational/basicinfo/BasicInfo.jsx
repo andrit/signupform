@@ -18,9 +18,6 @@ import './basicinfo.css';
         email: PropTypes.string
     }
 
-    dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
-    prod_url = "https://apps.pcrichard.com/superphone/";
-
     handleUpdateFieldValue = (e) => {
         let fieldName =  e.target.name; 
         let fieldValue = e.target.value;
@@ -55,9 +52,9 @@ import './basicinfo.css';
     
     handleSubmit = (e) => {
         e.preventDefault();
+        const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
         this.props.isLoading();
-        //this.setState({ loading: true }, () => {
-            fetchPostDataEncode(this.dev_url, {
+            fetchPostDataEncode(fetchUrl, {
                 action : "basic",
                 hash : this.props.formHash,
                 phone : this.props.phone,
