@@ -23,35 +23,21 @@ import './basicinfo.css';
     handleUpdateFieldValue = (e) => {
         let fieldName =  e.target.name; 
         let fieldValue = e.target.value;
-        if(fieldName === 'phone'){
-            const phoneRegex = /^\(?\d{3}\D*\d{3}\D*\d{4}$/;
-           if(!fieldValue.match(phoneRegex) ){
-               this.setState({
-                   phoneInvalid: true
-               })
-           } else {
-            this.setState({
-                phoneInvalid: false
-            })
-           }
-                
-        }
-        if(fieldName === 'email'){
-            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            if(!fieldValue.match(emailRegex) ){
-                this.setState({
-                    emailInvalid: true
-                })
-            } else {
-                this.setState({
-                    emailInvalid: false
-                })
-            }
-        }
         this.props.updateFieldValue(fieldName, fieldValue);
     };
 
     checkForm = ({firstname, lastname, phone, email}) => {
+        const phoneRegex = /^\(?\d{3}\D*\d{3}\D*\d{4}$/; 
+            const emailRegex=/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            let emailInvalid = false; 
+            let phoneInvalid = false;
+            if(!email.match(emailRegex) ){
+                emailInvalid = true;
+            }
+    
+            if(!phone.match(phoneRegex) ){
+                phoneInvalid = true;
+            }
         return {
             firstname:
               !firstname || firstname.trim().length === 0
@@ -62,11 +48,11 @@ import './basicinfo.css';
                 ? "Last Name is required"
                 : false,
             email:
-                !email || email.trim().length === 0 || this.state.emailInvalid
+                !email || email.trim().length === 0 || emailInvalid
                   ? "Email is required"
                   : false,
             phone:
-                !phone || phone.trim().length === 0 || this.state.phoneInvalid
+                !phone || phone.trim().length === 0 || phoneInvalid
                   ? "Phone is required"
                   : false
           };
@@ -147,27 +133,27 @@ import './basicinfo.css';
                             value={this.props.firstname} 
                             onChange={this.handleUpdateFieldValue}
                             placeholder='First Name' />
-                            {errors.firstname && <p className="error">Please Enter a First Name.</p>}
+                            {errors.firstname && this.state.FormErrors ? <p className="error">Please Enter a First Name.</p> : ''}
                     <input name="lastname" 
                             type="text"
                             value={this.props.lastname}
                             onChange={this.handleUpdateFieldValue} 
                             placeholder='Last Name' />
-                            {errors.lastname && <p className="error">Please Enter a Last Name.</p>}
+                            {errors.lastname && this.state.FormErrors ? <p className="error">Please Enter a Last Name.</p> : ''}
                     <input name="phone" 
                             type="tel"
                             value={this.props.phone} 
                             onFocus={this.toggleInputFocus}
                             onChange={this.handleUpdateFieldValue} 
                             placeholder='Phone Number' />
-                            {errors.phone && <p className="error">Please Enter a Valid Phone Number.</p>}
+                            {errors.phone && this.state.FormErrors ? <p className="error">Please Enter a Valid Phone Number.</p> : ''}
                     <input name="email" 
                             type="email"
                             value={this.props.email} 
                             onFocus={this.toggleInputFocus}
                             onChange={this.handleUpdateFieldValue} 
                             placeholder='Email' />
-                            {errors.email && <p className="error">Please Enter a Valid Email Number.</p>}
+                            {errors.email && this.state.FormErrors ? <p className="error">Please Enter a Valid Email Number.</p> : ''}
                     </React.Fragment>
 
                 <div className="accept-submit">
