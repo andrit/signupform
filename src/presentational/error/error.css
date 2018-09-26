@@ -1,0 +1,21 @@
+.error-view{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+.error-view div{
+    margin: auto;
+}
+
+.error-view h1, .error-view p, .error-view i{
+    color: #D71920;
+}
+.error-view h1{
+    font-weight: bold;
+}
+.error-view p{
+    font-size: 1.5em;
+    font-style: italic;
+}

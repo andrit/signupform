@@ -4,6 +4,7 @@ import IntroScreen from './presentational/introscreen';
 import BasicInfo from './presentational/basicinfo';
 import ExtraInfo from './presentational/extrainfo';
 import ThankYou from './presentational/thankyou';
+import Error from './presentational/error';
 import Header from './presentational/header';
 import LoadingSpinner from './utils/LoadingSpinner';
 import {flattenObject, transformAnswerForDataTransport, transformArrayToObject, getUrlVars} from './utils';
@@ -36,8 +37,7 @@ class App extends Component {
   
   // static formAnswers;
 
-  dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
-  prod_url = "https://apps.pcrichard.com/superphone/";
+ 
 
   componentDidMount() {
     const apiurl= 'https://superphone.io/f/' + this.props.formHash;
@@ -135,6 +135,7 @@ class App extends Component {
 
   //submit whole for
   submitform = (bday) => {
+    const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
      this.handleExtraInfoFormSubmit()
      .then(() => {
        let answers = this.state.formAnswers;
@@ -148,7 +149,7 @@ class App extends Component {
                                         birthday: birthday}, flatObj);
        console.log(submitObj);
        
-        fetchPostDataPreserve(this.dev_url, submitObj, 'POST', 'cors')
+        fetchPostDataPreserve(fetchUrl, submitObj, 'POST', 'cors')
            .then(res => {
                const response = res;
                console.log(response);
@@ -276,6 +277,9 @@ class App extends Component {
       break;
       case 'thankyou':
         return <ThankYou firstName={this.state.firstname} lastName={this.state.lastname} />
+        break;
+      case 'error':
+        return <Error handleSwitchSection={this.handleSwitchSection} />
         break;
     }
   }

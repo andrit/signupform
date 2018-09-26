@@ -60,7 +60,7 @@ import './basicinfo.css';
         //this.setState({ loading: true }, () => {
             fetchPostDataEncode(this.dev_url, {
                 action : "basic",
-                hash : this.props.formHash || "NZAYCyzl",
+                hash : this.props.formHash,
                 phone : this.props.phone,
                 firstName : this.props.firstname,
                 lastName : this.props.lastname,
@@ -79,7 +79,7 @@ import './basicinfo.css';
                     console.log(res.data);
                   }
                 //console.log(error);
-                //this.props.handleSwitchSection('extrainfosection');
+                this.props.handleSwitchSection('error');
             })
        // });
     }
@@ -103,7 +103,7 @@ import './basicinfo.css';
                             type="text"
                             value={this.props.firstname} 
                             onChange={this.handleUpdateFieldValue}
-                            placeholder='Full Name' />
+                            placeholder='First Name' />
                     <input name="lastname" 
                             type="text"
                             value={this.props.lastname}

@@ -1,12 +1,17 @@
 header{
     border-bottom: 3px solid #034694;
     height:40px;
-    padding: 10px;
+    padding: 20px;
     margin-bottom:1em;
     display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
-
 .brand-logo{
-    width: 100%;
-    align-items: center;
+    width: auto;
+}
+@media only screen and (max-width: 600px){
+    .brand-logo{
+        width: 100%;
+    }
 }

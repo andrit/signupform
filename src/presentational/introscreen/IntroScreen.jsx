@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
-import FetchSalesPerson from '../../container/FetchSalesperson';
 import {TransitionAnimation} from '../../utils/TransitionAnimation';
-
-import axios from 'axios';
 
 import PropTypes from "prop-types";
 
 import './introscreen.css';
 
-//import {AcceptText} from 'routesconfig';
 
 class IntroScreen extends Component{
     static propTypes = {
@@ -16,32 +12,10 @@ class IntroScreen extends Component{
         handleSwitchSection: PropTypes.func,
     }
 
-    state={
-        textsAccepted: false
-        
-    }
-   
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.isLoading();
         this.props.handleSwitchSection('basicinfosection');
-        // const acceptTexts= '';
-        // axios.post(acceptTexts)
-        //     .then(res => {
-        //         const response = res;
-        //         this.props.handleSwitchSection('basicinfosection');
-                
-        //     }
-        //     )
-        //     .then( () => { this.props.notLoading(); this.setState({ textsAccepted: true}) })
-        //     .catch((error) => {
-        //         console.log(error);
-        //         this.props.notLoading();
-        //         //remove these when we have an ajax route that works
-        //         this.props.handleSwitchSection('basicinfosection');
-        //         this.setState({ textsAccepted: true}) 
-                
-        //     })
     }
     render(){
         return( 
@@ -69,10 +43,7 @@ class IntroScreen extends Component{
                     <p>Clicking the button below means you agree to receive messages from me via my superphone. You can opt-out at anytime by just texting STOP. Your carrier may charge you normal SMS or data rates</p>
                 </div>
                 <div className="accept-submit">
-                        {this.state.textsAccepted == false 
-                            ? ( <button onClick={this.handleSubmit} className="pcrbtn btn-red">Yes, send me texts</button> )
-                            : ( <div className="text-accept-success"><i className="fa fa-check"></i> Great!</div>)}
-                    
+                     <button onClick={this.handleSubmit} className="pcrbtn btn-red">Yes, send me texts</button>    
                 </div>
             </section> 
         )

@@ -1,32 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {TransitionAnimation} from '../../utils/TransitionAnimation';
-import {fetchPostData, fetchGetData} from '../../utils/http';
+import {fetchGetData} from '../../utils/http';
 import CheckboxCustomInput from './CheckboxCustomInput';
 import RadioCustomInput from './RadioCustomInput';
 import './extrainfo.css';
 
-const whatLike = [
-    {"brand": "Apple"},
-    {"brand": "Bose"},
-    {"brand": "Frigidaire"},
-    {"brand": "GE"},
-    {"brand": "Samsung"},
-    {"brand": "SONOS"},
-    {"brand": "LG"},
-    {"brand": "Sony"},
-    {"brand": "Whirlpool"},
-    {"brand": "Other"}
-];
-
-const likeCategories = [
-    {"category": "Appliances"},
-    {"category": "TVs & Electronics"},
-    {"category": "Mattresses & Recliners"},
-    {"category": "BBQs"}
-];
-
-//const ExtraInfo = React.forwardRef((props, ref) => (
 class ExtraInfo extends Component{
 
     state={
@@ -36,7 +15,6 @@ class ExtraInfo extends Component{
         birthYear: '',
         birthMonth: '',
         customInputs:[],
-        // selectedCheckboxes:[],
         radioActiveState: null
     }
 
@@ -207,17 +185,17 @@ class ExtraInfo extends Component{
                             <select onChange={this.handleChooseMonthBday} value={this.state.birthMonth}>
                                 <option value="0">Month </option>
                                 <option value="1">January</option>
-                                <option value="2">february</option>
-                                <option value="3">march</option>
-                                <option value="4">april</option>
-                                <option value="5">may</option>
-                                <option value="6">june</option>
-                                <option value="7">july</option>
-                                <option value="8">august</option>
-                                <option value="9">september</option>
-                                <option value="10">october</option>
-                                <option value="11">november</option>
-                                <option value="12">december</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
                             </select>
                         </div>
 
