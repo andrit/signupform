@@ -25,14 +25,9 @@ class ExtraInfo extends Component{
         selectedLikes: PropTypes.array,
         selectedCategories: PropTypes.array,
     }
-
-    dev_url = "https://apps.pcrichard.com:8082/superphone/"; 
-    prod_url = "https://apps.pcrichard.com/superphone/";
-
     componentDidMount() {
        // superphone APi
     const apiurl= 'https://superphone.io/f/' + this.props.formHash;
-       //const apiurl= 'https://superphone.io/f/NZAYCyzl';
        fetchGetData(apiurl)
         .then(res => {
            
@@ -51,9 +46,7 @@ class ExtraInfo extends Component{
                 }
                 return comparison;
             }
-            console.log('api data: ', getData);
             const FormFields = getData.formFields.sort(compare);
-            console.log(FormFields);
             this.setState({
                 customInputs: FormFields
             })
@@ -138,16 +131,13 @@ class ExtraInfo extends Component{
 
     render(){
         return(
-            <form
-                //ref={ref}
-                id="extrainfosection"
+            <form id="extrainfosection"
                 className="form-section text-center">
           
                 <div className="purpose-statement">
                     <p>I could Text you info on deals you may be interested in.</p>
                 </div>
                 {this.state.customInputs.map((input, i) => {
-                    //console.log('options: ', input.options);
                     if(input.type === 'radio'){
                         return(
                             <div className="preference-section" key={i}>
@@ -175,8 +165,6 @@ class ExtraInfo extends Component{
                     
                     })
                 }
-
-
 
                 <div className="preference-section">
                     <h2>Receive Gifts on your Birthday!</h2>
@@ -233,6 +221,6 @@ class ExtraInfo extends Component{
         )
     }
 }
-//));
+
 const ExtraInfoMotion = TransitionAnimation(ExtraInfo);
 export default ExtraInfoMotion;

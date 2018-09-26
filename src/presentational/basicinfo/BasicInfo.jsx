@@ -24,7 +24,6 @@ import './basicinfo.css';
     handleUpdateFieldValue = (e) => {
         let fieldName =  e.target.name; 
         let fieldValue = e.target.value;
-        let forFocus = e.target.name + 'IsFocused';
         if(fieldName === 'phone'){
             const phoneRegex = /^\(?\d{3}\D*\d{3}\D*\d{4}$/;
            if(!fieldValue.match(phoneRegex)){
@@ -68,8 +67,6 @@ import './basicinfo.css';
                 }, 'POST', 'cors'
             )
             .then(res => {
-                const response = res;
-                // this.props.notLoading();
                 this.props.handleSwitchSection('extrainfosection');
             }
             ).catch((res) => {
@@ -78,10 +75,8 @@ import './basicinfo.css';
                   } else {
                     console.log(res.data);
                   }
-                //console.log(error);
                 this.props.handleSwitchSection('error');
             })
-       // });
     }
 
       render(){

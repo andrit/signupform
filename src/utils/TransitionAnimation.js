@@ -25,10 +25,6 @@ export const TransitionAnimation = (Module) => {
             this.setState({ in: true })
         }
         
-        // componentWillLeave(){
-
-        // }
-
         render(){
             return(
                 <Transition 

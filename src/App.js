@@ -7,21 +7,15 @@ import ThankYou from './presentational/thankyou';
 import Error from './presentational/error';
 import Header from './presentational/header';
 import LoadingSpinner from './utils/LoadingSpinner';
-import {flattenObject, transformAnswerForDataTransport, transformArrayToObject, getUrlVars} from './utils';
+import {flattenObject, transformAnswerForDataTransport, transformArrayToObject} from './utils';
 
 import {fetchPostDataPreserve} from './utils/http';
 
-// import {disableScroll, enableScroll} from './utils/handlescroll';
-
-
-//const extrainfosection = React.createRef();
-//const basicinfosection = React.createRef();
 
 class App extends Component {
 
   state={
     activeSection: 'introsection',
-    salesPersonName: '',
     formHash: '',
     firstname: '',
     lastname: '',
@@ -38,10 +32,6 @@ class App extends Component {
   // static formAnswers;
 
  
-
-  componentDidMount() {
-    const apiurl= 'https://superphone.io/f/' + this.props.formHash;
-  }
 
   updateFieldValue = (stateprop, value) => {
     this.setState({
@@ -104,23 +94,16 @@ class App extends Component {
           t.fieldType === 'radio'
         ))
       );
-      console.log(radioAnswers);
-          // where createApiCheckboxArray() will provide new values
+
       let cba = this.createApiCheckboxArray(this.state.selectedCheckboxes);
-      console.log('cba: ', cba);
       let checkboxAnswers = cba.map(box => {
 
-        return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hash })
+      return ({ inputState: box.value, fieldType: "checkbox", hashKey: box.hash })
       });
-      console.log(checkboxAnswers);
       
       let ExtraAnswers = radioAnswers.concat(checkboxAnswers);
-     
-      console.log(ExtraAnswers);
+      let AnswersObject = transformArrayToObject(transformAnswerForDataTransport(ExtraAnswers));
 
-
-        let AnswersObject = transformArrayToObject(transformAnswerForDataTransport(ExtraAnswers));
-        console.log('answers object: '. AnswersObject);
       this.setState({
         formAnswers: AnswersObject
       })
@@ -133,7 +116,7 @@ class App extends Component {
     
   }
 
-  //submit whole for
+  //submit whole form
   submitform = (bday) => {
     const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
      this.handleExtraInfoFormSubmit()
@@ -147,14 +130,9 @@ class App extends Component {
                                         hash : this.props.formHash || "NZAYCyzl",
                                         phone : this.state.phone,
                                         birthday: birthday}, flatObj);
-       console.log(submitObj);
        
         fetchPostDataPreserve(fetchUrl, submitObj, 'POST', 'cors')
            .then(res => {
-               const response = res;
-               console.log(response);
-               //show them a thank you page
-               //this.notLoading();
                this.handleSwitchSection('thankyou');
            }
            ).catch((res) => {
@@ -202,7 +180,7 @@ class App extends Component {
              }
            };
            let indexOf = findIndexOf(checkboxes, item);
-            let removedCheckboxes = checkboxes.splice(indexOf, 1);
+           checkboxes.splice(indexOf, 1);
            this.setState({
              selectedCheckboxes: checkboxes
            })
@@ -242,11 +220,11 @@ class App extends Component {
      switch(this.state.activeSection){
       case 'introsection':
         return <IntroScreen 
-                  salesmanName={this.props.salesman}
                   handleSwitchSection={this.handleSwitchSection} 
                   activeSection={this.state.activeSection}
                   isLoading={this.isLoading}
-                  notLoading={this.notLoading} />
+                  notLoading={this.notLoading}
+                  formHash={this.props.formHash} />
       break;
       case 'basicinfosection':
         return <BasicInfo 

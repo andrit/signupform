@@ -24,10 +24,6 @@ export const TransitionAnimationError = (Module) => {
         componentDidMount() {
             this.setState({ in: true })
         }
-        
-        // componentWillLeave(){
-
-        // }
 
         render(){
             return(

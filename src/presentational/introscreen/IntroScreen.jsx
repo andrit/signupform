@@ -1,15 +1,35 @@
 import React, {Component} from 'react';
 import {TransitionAnimation} from '../../utils/TransitionAnimation';
-
+import{fetchGetData} from '../../utils/http';
 import PropTypes from "prop-types";
 
 import './introscreen.css';
 
-
 class IntroScreen extends Component{
+    state={
+        salesmanName:''
+    }
     static propTypes = {
         activeSection: PropTypes.string,
         handleSwitchSection: PropTypes.func,
+    }
+
+    componentDidMount() {
+        const apiurl= 'https://superphone.io/f/' + this.props.formHash;
+        fetchGetData(apiurl)
+        .then(res => {    
+            return res.json();
+        })
+        .then(data => {
+            let getData = data;
+            let salesman = getData.pageTitle
+            this.setState({
+                salesmanName: salesman
+            })
+        })
+        .catch(error => {
+            console.log('error GET from superphone API getting salesman: ', error, apiurl);
+        })
     }
 
     handleSubmit = (e) => {
@@ -19,19 +39,16 @@ class IntroScreen extends Component{
     }
     render(){
         return( 
-            <section
-                id="introsection"
-                className={this.props.activeSection === 'introsection' 
-                                ? "isactive form-section text-center" 
-                                : "notactive form-section text-center"}>
+            <section id="introsection"
+                className="form-section text-center">
                 
                     <div className="img-container">
                         <i className="fa fa-user-circle fa-5x"></i>
                     </div>
                     
                     <div className="intro-salesperson">            
-                        {this.props.salesmanName 
-                            ? ( <h1>Hey, It's {this.props.salesmanName }</h1> )
+                        {this.state.salesmanName 
+                            ? ( <h1>Hey, It's {this.state.salesmanName }</h1> )
                             : ( <h1> Hey, It's PC Richard &amp; Son</h1> )
                         }
                     </div>

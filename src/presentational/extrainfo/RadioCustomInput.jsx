@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types";
 import './extrainfo.css';
 
 class RadioCustomInput extends Component{
@@ -17,9 +16,7 @@ class RadioCustomInput extends Component{
             <div className="radio-group">
                 {this.props.options.map((item, i) => {
                     return(
-                        <label 
-                            className={this.props.radioActiveState === item ? "active-box radio-label" : "radio-label"} 
-                            // className={this.state.isChecked ? "active-box radio-label" : "radio-label"} 
+                        <label className={this.props.radioActiveState === item ? "active-box radio-label" : "radio-label"} 
                             htmlFor={item + '-card'} 
                             key={i}
                             onClick={(e) => this.handleRadioOnClick(e)}>
