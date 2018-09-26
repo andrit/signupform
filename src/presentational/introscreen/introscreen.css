@@ -1,3 +1,18 @@
+#introsection{
+    width: 75%;
+    margin: 0 auto;
+}
+@media screen and (max-width: 768px){
+    #introsection{
+        width: 95%;
+    } 
+}
+@media screen and (max-width: 414px){
+    #introsection{
+        width: 100%;
+    } 
+}
+
 .img-container{
     margin-top: 80px
 }
@@ -25,6 +40,7 @@
 #introsection .pcrbtn{
     padding: 10px 80px;
 }
+
 .text-accept-success{
     font-size: 24px;
 }

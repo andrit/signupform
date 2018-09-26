@@ -138,7 +138,9 @@ class ExtraInfo extends Component{
                     if(input.type === 'radio'){
                         return(
                             <div className="preference-section" key={i}>
-                                <h2>{input.name}</h2>
+                                <header>
+                                    <h2>{input.name}</h2>
+                                </header>
                                     <RadioCustomInput 
                                         radioActiveState={this.state.radioActiveState} 
                                         handleRadioClick={this.handleRadioClick} 
@@ -149,7 +151,7 @@ class ExtraInfo extends Component{
                     } else if ( input.type === 'checkbox'){
                         return(
                             <div className="preference-section" key={i}>
-                                <h2>{input.name}</h2>
+                                <header><h2>{input.name}</h2></header>
                                     <CheckboxCustomInput 
                                         selectedBoxes={this.props.selectedCheckboxes} 
                                         handleOnClick={this.handleCheckboxClick} 
@@ -164,7 +166,7 @@ class ExtraInfo extends Component{
                 }
 
                 <div className="preference-section">
-                    <h2>Receive Gifts on your Birthday!</h2>
+                    <header><h2>Receive Gifts on your Birthday!</h2></header>
                     <div className="bday-selectgroup-wrap">
                         <div className="select-group">
                             <select onChange={this.handleChooseMonthBday} value={this.state.birthMonth}>

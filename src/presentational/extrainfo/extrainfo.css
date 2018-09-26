@@ -4,24 +4,29 @@ input[type=checkbox], input[type=radio]{
 }
 
 label{
-    background-color: #FFF;
+    /* background-color: #FFF;
     color: #034694;
-    border: 1px solid #034694;
-    padding: 5px 0;
-    text-align: center;
-    width: 95%;
-    border-radius: 30px;
-    margin: 3px auto;
-    transition: .3s;
-}
-label.active-box{
+    border: 1px solid #034694; */
     background-color: #034694;
     color: #FFF;
+    border: 3px solid transparent;
+    padding: 5px 0;
+    text-align: center;
+    width: 90%;
+    border-radius: 30px;
+    margin: 3px 2px 3px 0;
+    transition: color .3s ease-in-out, background-color .5s ease-in-out, border .3s ease-in-out;
+}
+label.active-box{
+    border-color: #034694;
+    color: #034694;
+    background-color: #FFF;
+    box-shadow: 1px 3px #00377B;
 }
 .checkbox-group label, .radio-group label{
     width: 48%;
     float: left;
-    margin: 4px 0;
+    margin: 3px 2px 3px 0;
     padding: 0 4px 20px;
 }
 
@@ -41,6 +46,12 @@ label.active-box{
     clear: both;
     height: auto;
     display: inline-block;
+}
+
+.preference-section header{
+    padding: 6px 3px;
+    border-bottom: 2px solid #eee;
+    margin: 2px auto 10px;
 }
 .preference-section h2{
     font-size: 1.25em;

@@ -126,7 +126,7 @@ import './basicinfo.css';
                 <p>Just add your full name &amp; email to create a contact in my address book</p>
             </div>
 
-            <form>
+            <form className="form-section">
              <React.Fragment>
                     <input name="firstname" 
                             type="text"

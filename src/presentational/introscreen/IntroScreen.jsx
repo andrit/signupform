@@ -29,6 +29,7 @@ class IntroScreen extends Component{
         })
         .catch(error => {
             console.log('error GET from superphone API getting salesman: ', error, apiurl);
+            this.props.handleSwitchSection('error');
         })
     }
 
