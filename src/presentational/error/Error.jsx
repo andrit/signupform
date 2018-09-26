@@ -6,7 +6,8 @@ import './error.css';
 class Error extends Component{
     handleGoBack = (e) => {
         e.preventDefault();
-        this.props.handleSwitchSection("introsection");
+        const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
+        window.location.href = fetchUrl;
     }
     render(){
         return(

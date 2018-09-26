@@ -14,7 +14,7 @@ import {fetchPostDataPreserve} from './utils/http';
 class App extends Component {
 
   state={
-    activeSection: 'introsection',
+    activeSection: this.props.formHash ? 'introsection' : 'error',
     formHash: '',
     firstname: '',
     lastname: '',
@@ -28,6 +28,13 @@ class App extends Component {
     loading: false
   }
 
+
+  // componentDidMount() {
+  //   if(this.props.formHash === null){
+  //     this.handleSwitchSection('error');
+  //   }
+  // }
+  
 
   updateFieldValue = (stateprop, value) => {
     this.setState({
