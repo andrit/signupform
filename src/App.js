@@ -105,7 +105,9 @@ class App extends Component {
 
   //submit whole form
   submitform = (bday) => {
-    const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
+    // const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
+    const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : window.location.href;
+        
      this.handleExtraInfoFormSubmit()
      .then(() => {
        let answers = this.state.formAnswers;

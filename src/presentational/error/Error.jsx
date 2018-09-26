@@ -6,8 +6,8 @@ import './error.css';
 class Error extends Component{
     handleGoBack = (e) => {
         e.preventDefault();
-        const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_DEV_URL : process.env.REACT_APP_PROD_URL;
-        window.location.href = 'localhost:3000';
+        const fetchUrl = process.env.NODE_ENV !== 'production' ? process.env.REACT_APP_API_URL : process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : window.location.href;
+        window.location.href = fetchUrl;
     }
     render(){
         return(
