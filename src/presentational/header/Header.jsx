@@ -4,7 +4,7 @@ import './header.css';
 class Header extends Component {
     render(){
         return(<header className="top-header">
-            <img className="brand-logo" src="img/pcr_header_logo.png" alt="PC Richard & Son" />
+            <img className="brand-logo" src={this.props.logo.imgsrc} alt={this.props.logo.imgalt} />
         </header>)
     }
 }
