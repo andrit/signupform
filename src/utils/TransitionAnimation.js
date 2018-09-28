@@ -1,6 +1,7 @@
 import React from 'react';
 import Transition from 'react-transition-group/Transition';
-
+//consider more props to <Module/> like animationDuration and whether it is shown or not. 
+//can counteranimate for > interaction
 const duration = 400;
 const duration2 = 800;
 
@@ -37,7 +38,7 @@ export const TransitionAnimation = (Module) => {
                         ...defaultStyle,
                         ...transitionStyles[state]
                     }}>
-                        <Module {...this.props} />
+                        <Module show={this.props.in} animationDuration={this.props.timeout} {...this.props} />
                     </div>
                     )}
                 </Transition>
