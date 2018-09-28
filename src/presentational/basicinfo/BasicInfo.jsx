@@ -123,7 +123,7 @@ import './basicinfo.css';
                     ? "isactive form-section text-center" 
                     : "notactive form-section text-center"}>
             <div className="purpose-statement">
-                <p>Just add your full name &amp; email to create a contact in my address book</p>
+                <p>Purpose Statement</p>
             </div>
 
             <form className="form-section">
@@ -158,7 +158,7 @@ import './basicinfo.css';
 
                 <div className="accept-submit">
                     {this.state.FormErrors && <p className="error">{this.state.FormErrors}</p>}
-                    <button className="pcrbtn btn-red" onClick={this.handleSubmit}>Add My Basic Info</button>
+                    <button className="btn-red" onClick={this.handleSubmit}>Add My Basic Info</button>
                     
                 </div>
             </form>
