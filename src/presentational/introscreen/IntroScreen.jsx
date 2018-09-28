@@ -7,7 +7,8 @@ import './introscreen.css';
 
 class IntroScreen extends Component{
     state={
-        salesmanName:''
+        personname:'',
+        apiurl: null
     }
     static propTypes = {
         activeSection: PropTypes.string,
@@ -15,20 +16,20 @@ class IntroScreen extends Component{
     }
 
     componentDidMount() {
-        const apiurl= 'https://superphone.io/f/' + this.props.formHash;
+        const apiurl= this.state.apiurl + this.props.formHash;
         fetchGetData(apiurl)
         .then(res => {    
             return res.json();
         })
         .then(data => {
             let getData = data;
-            let salesman = getData.pageTitle
+            let person = data.person;
             this.setState({
-                salesmanName: salesman
+                personname: person
             })
         })
         .catch(error => {
-            console.log('error GET from superphone API getting salesman: ', error, apiurl);
+            console.log('error GET API getting person: ', error, apiurl);
             this.props.handleSwitchSection('error');
         })
     }
@@ -39,6 +40,7 @@ class IntroScreen extends Component{
         this.props.handleSwitchSection('basicinfosection');
     }
     render(){
+        let {btn-color} = this.props;
         return( 
             <section id="introsection"
                 className="form-section text-center">
@@ -47,21 +49,21 @@ class IntroScreen extends Component{
                         <i className="fa fa-user-circle fa-5x"></i>
                     </div>
                     
-                    <div className="intro-salesperson">            
-                        {this.state.salesmanName 
-                            ? ( <h1>Hey, It's {this.state.salesmanName }</h1> )
-                            : ( <h1> Hey, It's PC Richard &amp; Son</h1> )
+                    <div className="intro-person">            
+                        {this.state.personname 
+                            ? ( <h1>Hey, It's {this.state.personname }</h1> )
+                            : ( <h1> Hey, It's Other</h1> )
                         }
                     </div>
                
                 <div className="purpose-statement">
-                    <p>I would like to keep in touch, feel free to contact me directly with any questions.</p>
+                    <p>purpose</p>
                 </div>
-                <div className="agreement-explanation">
-                    <p>Clicking the button below means you agree to receive messages from me via my superphone. You can opt-out at anytime by just texting STOP. Your carrier may charge you normal SMS or data rates</p>
+                <div className="explanation">
+                    <p>Explain Purpose</p>
                 </div>
                 <div className="accept-submit">
-                     <button onClick={this.handleSubmit} className="pcrbtn btn-red">Yes, send me texts</button>    
+                     <button onClick={this.handleSubmit} className=`btn-${btn-color}`>Yes, send me texts</button>    
                 </div>
             </section> 
         )
