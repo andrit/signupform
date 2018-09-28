@@ -56,7 +56,7 @@ class ExtraInfo extends Component{
             this.renderYears();
         })
         .catch(error => {
-            console.log('error GET from superphone API: ', error);
+            console.log('error GET from API: ', error);
         })
     }
     
@@ -132,7 +132,7 @@ class ExtraInfo extends Component{
                 className="form-section text-center">
           
                 <div className="purpose-statement">
-                    <p>I could Text you info on deals you may be interested in.</p>
+                    <p>Purpose of form</p>
                 </div>
                 {this.state.customInputs.map((input, i) => {
                     if(input.type === 'radio'){
